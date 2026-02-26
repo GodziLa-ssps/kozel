@@ -153,10 +153,6 @@
     display: none;
 }
 
-/* --- CSS Reset (doplnění k externímu resetu) --- */
-/* Reset box-sizing, margin, line-height atd. je v externím souboru:
-   https://api.ssps.cajthaml.eu/file/68f3df8a793bb6d00c5da848 */
-
 * {
     padding: 0;
 }
@@ -2011,8 +2007,7 @@ h6 {
     .mobile-nav,
     .mobile-nav-overlay,
     .back-to-top,
-    .lightbox,
-    .skip-link {
+    .lightbox {
         display: none !important;
     }
 
@@ -2034,25 +2029,9 @@ h6 {
 
 /* ==============================
    SKIP TO CONTENT (Accessibility)
+   removed — not used
    ============================== */
-.skip-link {
-    position: absolute;
-    top: -100%;
-    left: 16px;
-    background: var(--primary);
-    color: var(--text-white);
-    padding: 12px 24px;
-    border-radius: 0 0 var(--radius) var(--radius);
-    font-weight: 600;
-    font-size: 0.9rem;
-    z-index: 9999;
-    transition: top 0.2s ease;
-}
 
-.skip-link:focus {
-    top: 0;
-    color: var(--text-white);
-}
 
 /* ==============================
    FOCUS STYLES (Accessibility)

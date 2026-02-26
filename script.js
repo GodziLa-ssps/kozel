@@ -571,11 +571,12 @@ document.addEventListener('DOMContentLoaded', () => {
         function loadMap() {
             if (mapConsent) mapConsent.remove();
             const iframe = document.createElement('iframe');
-            iframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10236.04!2d14.6!3d50.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470bee6b6f9a9e2d%3A0x400af0f66164bf0!2sZelene%C4%8D!5e0!3m2!1scs!2scz!4v1700000000000!5m2!1scs!2scz';
+            iframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2557.5!2d14.6427!3d50.0867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470bee6b6f9a9e2d%3A0x400af0f66164bf0!2sFaltusova%20184%2F9%2C%20250%2091%20Zelene%C4%8D!5e0!3m2!1scs!2scz';
+            //mapa na zelenec obecne     iframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10236.04!2d14.6!3d50.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470bee6b6f9a9e2d%3A0x400af0f66164bf0!2sZelene%C4%8D!5e0!3m2!1scs!2scz!4v1700000000000!5m2!1scs!2scz';
             iframe.allowFullscreen = true;
             iframe.loading = 'lazy';
             iframe.referrerPolicy = 'no-referrer-when-downgrade';
-            iframe.title = 'Mapa — Zeleneč';
+            iframe.title = 'Mapa — Faltusova 184/9, Zeleneč';
             iframe.style.width = '100%';
             iframe.style.height = '100%';
             iframe.style.border = '0';

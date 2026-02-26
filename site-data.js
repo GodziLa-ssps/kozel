@@ -1,10 +1,5 @@
-/* ============================================
-   SPOLEK KOZEL — Site Content Data
-   Edit this file to add/update news and events.
-   ============================================ */
-
 /**
- * ANNOUNCEMENTS — marquee bar on index.html
+ * ANNOUNCEMENTS — horni bar na index.html
  * Each item: { text, link, icon, badge? }
  * badge is optional — shows a "Nové" label before the icon.
  */
@@ -16,8 +11,8 @@ const ANNOUNCEMENTS = [
 ];
 
 /**
- * NEWS_DATA — cards displayed on index.html
- * Add new items at the top of the array (newest first).
+ * NEWS_DATA — karty na index.html
+ * Novinky se pridavaji na zacatek pole (nejnovejsi prvni)
  */
 const NEWS_DATA = [
     {
@@ -71,9 +66,9 @@ const NEWS_DATA = [
 ];
 
 /**
- * EVENTS_DATA — timeline displayed on akce.html
+ * EVENTS_DATA — kalendar na akce.html
  * upcoming: true = "Nadcházející akce", false = "Proběhlé akce"
- * Add new events at the top of each group.
+ * Novinky se pridavaji na zacatek pole (nejnovejsi prvni)
  */
 const EVENTS_DATA = [
     // ——— Nadcházející ———
