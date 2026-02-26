@@ -425,19 +425,22 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'news-card reveal';
             card.style.setProperty('--i', i);
 
+            const linkHref = item.link || '#';
             card.innerHTML = `
-                <div class="news-card-image">
-                    <img src="${item.image}" alt="${item.title}" loading="lazy">
-                    <span class="news-card-tag">${item.tag}</span>
-                </div>
-                <div class="news-card-body">
-                    <div class="news-card-date">
-                        <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                        ${item.date}
+                <a href="${linkHref}" class="news-card-link">
+                    <div class="news-card-image">
+                        <img src="${item.image}" alt="${item.title}" loading="lazy">
+                        <span class="news-card-tag">${item.tag}</span>
                     </div>
-                    <h3>${item.title}</h3>
-                    <p>${item.text}</p>
-                </div>
+                    <div class="news-card-body">
+                        <div class="news-card-date">
+                            <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                            ${item.date}
+                        </div>
+                        <h3>${item.title}</h3>
+                        <p>${item.text}</p>
+                    </div>
+                </a>
             `;
             newsGrid.appendChild(card);
         });

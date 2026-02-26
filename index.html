@@ -27,6 +27,7 @@ git push
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://godzila-ssps.github.io/kozel/Logo_Kozel.png">
     <meta name="theme-color" content="#2563eb">
+    <meta name="robots" content="index, follow">
     <!-- doplnil copilot (stejne jako kousek dole je to google search usefull vec ig) -->
 
 
@@ -45,8 +46,11 @@ git push
 </head>
 
 <body>
-    <script>const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t);</script> 
+    <script>const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t);</script>
     <!-- dark/light theme -->
+
+    <!-- Skip to content -->
+    <a href="#novinky" class="skip-link">Přeskočit na obsah</a>
 
     <!-- JSON-LD Data (napsalo chatko, maj to byt data pro google vyhledavac) -->
     <script type="application/ld+json">
@@ -94,12 +98,13 @@ git push
         <div class="container">
             <div class="hero-content">
                 <div class="hero-badge">
-                    <i class="fa-solid fa-sparkles" aria-hidden="true"></i> <!-- aria-hidden="true", neprecte se u ctecky pro nevidome -->
+                    <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+                    <!-- aria-hidden="true", neprecte se u ctecky pro nevidome -->
                     Spolek nejen pro děti a rodiny od roku 2013
                 </div>
 
                 <!-- nbsp; je aby se v tom miste nelomila veta -->
-                <h1>Tvoříme zážitky nejen pro&nbsp;děti v&nbsp;Zelenči a&nbsp;okolí</h1> 
+                <h1>Tvoříme zážitky nejen pro&nbsp;děti v&nbsp;Zelenči a&nbsp;okolí</h1>
                 <p>
                     Jsme spolek KOZEL — pořádáme pohádkové stezky, masopusty, tvořivé
                     dílny, koncerty, letní kina
@@ -201,4 +206,5 @@ git push
     <script src="components.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
