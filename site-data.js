@@ -4,7 +4,19 @@
    ============================================ */
 
 /**
- * NEWS_DATA — cards displayed on main.html
+ * ANNOUNCEMENTS — marquee bar on index.html
+ * Each item: { text, link, icon, badge? }
+ * badge is optional — shows a "Nové" label before the icon.
+ */
+const ANNOUNCEMENTS = [
+    { text: 'Pohádkáč 2026 — registrace otevřena!', link: 'akce.html', icon: 'fa-solid fa-star', badge: true },
+    { text: 'Masopust 2026 — děkujeme všem účastníkům', link: 'akce.html', icon: 'fa-solid fa-masks-theater' },
+    { text: 'Hledáme dobrovolníky na letní tábor', link: 'info.html#podpora', icon: 'fa-solid fa-hand-holding-heart' },
+    { text: 'Nové fotografie z Masopustu', link: 'galerie.html', icon: 'fa-solid fa-camera' }
+];
+
+/**
+ * NEWS_DATA — cards displayed on index.html
  * Add new items at the top of the array (newest first).
  */
 const NEWS_DATA = [
@@ -21,7 +33,7 @@ const NEWS_DATA = [
         date: 'Připravujeme',
         title: 'Pohádkáč 2026 — přihlášky otevřeny',
         text: 'Naše oblíbená pohádková stezka se vrací! Připravte děti na dobrodružství plné pohádkových postav a úkolů.',
-        image: 'fotky_weby/pohad23/2023 Pohadkac Zelenec (1).JPG',
+        image: 'fotky_weby/pohadkac22/1185827711982333.jpg',
         link: 'akce.html'
     },
     {
@@ -46,6 +58,14 @@ const NEWS_DATA = [
         title: 'Vánoční setkání a pečení cukroví',
         text: 'Společné vánoční setkání s pečením cukroví, zpíváním koled a výrobou ozdob. Krásný způsob, jak si zpříjemnit adventní čas.',
         image: 'fotky_weby/maso19/DSC_1325.jpg',
+        link: 'akce.html'
+    },
+    {
+        tag: 'Koncert',
+        date: 'Říjen 2025',
+        title: 'Podzimní koncert pod širým nebem',
+        text: 'Příjemný hudební večer na zelečské návsi s místními kapelami, občerstvením a lampionkovým průvodem pro děti.',
+        image: 'fotky_weby/masopust25/960123306236907.jpg',
         link: 'akce.html'
     }
 ];

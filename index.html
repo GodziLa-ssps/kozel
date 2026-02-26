@@ -1,11 +1,204 @@
+﻿<!-- pomohl mi copilot -->
+<!-- hlavni inso (skupina co dela podobne akce) https://sosakos.cz/ -->
+<!-- TBH vubec nevim kolik v tom je hodin i s AI, ale 15h urcite (pro vas tak 2h max, ale to nevadi, ja se spokojim s mensim vykonem xd)-->
+<!-- aktualne jsem se hlavne snazil dokoncit main page a zbytek tak aby nejak fungoval somewhat -->
+
+<!--
+moje more or less prvni pouziti gitu takze radeji si to tu ulozim
+
+git add .
+git commit -m "Popis co jsem změnil"
+git push
+-->
+
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=main.html">
-    <title>Spolek KOZEL – Přesměrování</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Spolek KOZEL – Spolek pro Kulturní Občerstvení ZELenče. Pořádáme akce pro děti a rodiny v Zelenči a okolí.">
+    <meta name="author" content="Spolek KOZEL">
+    <meta property="og:title" content="Spolek KOZEL – Akce pro děti v Zelenči">
+    <meta property="og:description"
+        content="Pořádáme pohádkové stezky, masopusty a další kulturní akce nejen pro děti a rodiny v Zelenči.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://godzila-ssps.github.io/kozel/Logo_Kozel.png">
+    <meta name="theme-color" content="#2563eb">
+    <!-- doplnil copilot (stejne jako kousek dole je to google search usefull vec ig) -->
+
+
+
+    <title>Spolek KOZEL</title>
+    <link rel="icon" type="image/png" href="Icon_Kozel.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="reset.css"> <!-- reset z webu -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
-    <p>Přesměrování na <a href="main.html">hlavní stránku</a>…</p>
+    <script>const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t);</script> 
+    <!-- dark/light theme -->
+
+    <!-- JSON-LD Data (napsalo chatko, maj to byt data pro google vyhledavac) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Spolek KOZEL",
+        "alternateName": "Spolek pro Kulturní Občerstvení ZELenče",
+        "url": "https://spolek.kozel.cz/", 
+        "logo": "Logo_Kozel.png",
+        "description": "Pořádáme pohádkové stezky, masopusty, letni kina a další kulturní akce pro děti a rodiny v Zelenči.",
+        "foundingDate": "2013",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Faltusova 184/9",
+            "addressLocality": "Zeleneč",
+            "postalCode": "250 91",
+            "addressCountry": "CZ"
+        },
+        "telephone": "+420604176735",
+        "email": "pohadkoveputovanizelenci@gmail.com",
+        "taxID": "06529631"
+    }
+    </script>
+
+
+
+    <!-- header + back-to-top z components.js -->
+    <div id="site-header"></div>
+
+    <!-- ========== ANNOUNCEMENT BAR (rendered from site-data.js) ========== -->
+    <div class="announcement-bar">
+        <div class="announcement-track" id="announcementTrack">
+        </div>
+    </div>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero">
+        <div class="hero-shapes">
+            <div class="hero-shape"></div>
+            <div class="hero-shape"></div>
+            <div class="hero-shape"></div>
+        </div>
+
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fa-solid fa-sparkles" aria-hidden="true"></i> <!-- aria-hidden="true", neprecte se u ctecky pro nevidome -->
+                    Spolek nejen pro děti a rodiny od roku 2013
+                </div>
+
+                <!-- nbsp; je aby se v tom miste nelomila veta -->
+                <h1>Tvoříme zážitky nejen pro&nbsp;děti v&nbsp;Zelenči a&nbsp;okolí</h1> 
+                <p>
+                    Jsme spolek KOZEL — pořádáme pohádkové stezky, masopusty, tvořivé
+                    dílny, koncerty, letní kina
+                    a další kulturní akce, které spojují rodiny a přinášejí radost
+                    dětem i&nbsp;dospělým.
+                </p>
+                <div class="hero-buttons">
+                    <a href="akce.html" class="btn btn-white">
+                        <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+                        Nadcházející akce
+                    </a>
+                    <a href="info.html" class="btn btn-outline btn-outline-white">
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        Více o nás
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-image" aria-hidden="true">
+            <img src="main-foto.jpg" alt="Pohádkáč Zeleneč">
+        </div>
+    </section>
+
+    <!-- ========== NEWS ========== -->
+    <section class="section" id="novinky">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Co se u nás děje</h2>
+                <p>Novinky, oznámení a články z&nbsp;našich akcí</p>
+                <span class="underline"></span>
+            </div>
+
+            <div class="news-grid reveal-stagger" id="newsGrid">
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT ========== -->
+    <section class="section section-alt" id="o-nas">
+        <div class="container">
+            <div class="about-preview">
+                <div class="about-image-wrapper reveal-left">
+                    <img src="fotky_weby/masopust25/960123306236907.jpg" alt="Děti a rodiny na akci spolku KOZEL">
+                    <div class="about-image-badge">
+                        <i class="fa-solid fa-heart" aria-hidden="true"></i> Od roku 2013
+                    </div>
+                </div>
+
+                <div class="about-text reveal-right">
+                    <h2>Spolek, který spojuje rodiny</h2>
+                    <p class="lead">
+                        Spolek KOZEL (Spolek pro Kulturní Občerstvení ZELenče) vznikl
+                        s&nbsp;jednoduchou vizí — oživit komunitní život v&nbsp;Zelenči
+                        a&nbsp;okolních obcích a&nbsp;přinášet radost dětem i&nbsp;dospělým
+                        prostřednictvím kulturních akcí. Od roku 2013 jsme uspořádali
+                        desítky akcí pro stovky rodin.
+                    </p>
+
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" data-founding-year="2013">0</span>
+                            <span class="stat-label">Let činnosti</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="50" data-suffix="+">0</span>
+                            <span class="stat-label">Akcí pořádáno</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="800">0</span>
+                            <span class="stat-label">Spokojených rodin</span>
+                        </div>
+                    </div>
+
+                    <a href="info.html" class="btn btn-primary">
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        Zjistit více o spolku
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PARTNERS ========== -->
+    <div class="partners-strip reveal">
+        <div class="container">
+            <div class="partners-heading">Podporují nás</div>
+            <div class="partners-logos">
+                <span class="partner-placeholder">bude</span>
+                <span class="partner-placeholder">doplneno</span>
+                <span class="partner-placeholder">pozdeji</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="site-footer"></div>
+
+    <script src="site-data.js"></script>
+    <script src="components.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

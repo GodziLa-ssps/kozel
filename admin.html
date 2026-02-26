@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Správa obsahu — Spolek KOZEL</title>
+    <link rel="icon" type="image/png" href="Icon_Kozel.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========== RESET & BASE ========== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            color: #1a1a2e;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ========== TOP BAR ========== */
+        .topbar {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .25);
+        }
+
+        .topbar img {
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .topbar h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .topbar .back-link {
+            margin-left: auto;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: .85rem;
+            transition: color .2s;
+        }
+
+        .topbar .back-link:hover {
+            color: #fff;
+        }
+
+        /* ========== LAYOUT ========== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* ========== HELP BANNER ========== */
+        .help-banner {
+            background: #e0f2fe;
+            border: 1px solid #7dd3fc;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            font-size: .9rem;
+            color: #0c4a6e;
+        }
+
+        .help-banner h2 {
+            font-size: 1rem;
+            margin-bottom: .5rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .help-banner ol {
+            padding-left: 1.5rem;
+            margin-top: .5rem;
+        }
+
+        .help-banner li {
+            margin-bottom: .25rem;
+        }
+
+        .help-banner code {
+            background: #bae6fd;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: .85rem;
+        }
+
+        /* ========== TABS ========== */
+        .tabs {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: .65rem 1.25rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            background: #fff;
+            font-family: inherit;
+            font-size: .9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .tab-btn:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        .tab-btn.active {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* ========== CARDS ========== */
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .08);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            color: #1e40af;
+        }
+
+        /* ========== FORM ========== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-grid .full {
+            grid-column: 1 / -1;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: .35rem;
+        }
+
+        .field label {
+            font-size: .8rem;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            padding: .6rem .85rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: .9rem;
+            transition: border-color .2s;
+            background: #fff;
+        }
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .field textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .checkbox-field {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding-top: 1.5rem;
+        }
+
+        .checkbox-field input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-field label {
+            font-size: .85rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* ========== ICON PICKER ========== */
+        .icon-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin-top: .35rem;
+        }
+
+        .icon-option {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #334155;
+            transition: all .2s;
+            background: #fff;
+        }
+
+        .icon-option:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        .icon-option.selected {
+            border-color: #2563eb;
+            background: #2563eb;
+            color: #fff;
+        }
+
+        /* ========== BUTTONS ========== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .7rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: .9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-success {
+            background: #16a34a;
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            background: #15803d;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: .75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        /* ========== PREVIEW ========== */
+        .preview-box {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+            min-height: 60px;
+        }
+
+        .preview-box h4 {
+            font-size: .8rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: .75rem;
+        }
+
+        /* ========== CODE OUTPUT ========== */
+        .code-output {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: 10px;
+            padding: 1.25rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: .82rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        /* ========== EXISTING ITEMS LIST ========== */
+        .item-list {
+            list-style: none;
+        }
+
+        .item-list li {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .6rem .75rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: .88rem;
+        }
+
+        .item-list li:last-child {
+            border-bottom: none;
+        }
+
+        .item-list .item-icon {
+            color: #2563eb;
+            width: 24px;
+            text-align: center;
+        }
+
+        .item-list .item-text {
+            flex: 1;
+        }
+
+        .item-list .item-meta {
+            color: #94a3b8;
+            font-size: .8rem;
+        }
+
+        .item-list .item-actions {
+            display: flex;
+            gap: .35rem;
+        }
+
+        .item-list .item-actions button {
+            padding: .3rem .5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: .75rem;
+            transition: all .2s;
+        }
+
+        .item-edit {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .item-edit:hover {
+            background: #bfdbfe;
+        }
+
+        .item-delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .item-delete:hover {
+            background: #fecaca;
+        }
+
+        /* ========== TOAST ========== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #16a34a;
+            color: #fff;
+            padding: .75rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: .9rem;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, .2);
+            transform: translateY(120%);
+            transition: transform .3s ease;
+            z-index: 9999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: .75rem 1rem;
+            }
+
+            .topbar h1 {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <img src="Logo_Kozel.png" alt="Logo Kozel">
+        <h1><i class="fa-solid fa-pen-to-square"></i> Správa obsahu</h1>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Zpět na web</a>
+    </div>
+
+    <div class="container">
+
+        <!-- HELP BANNER -->
+        <div class="help-banner">
+            <h2><i class="fa-solid fa-circle-info"></i> Jak správu obsahu použít?</h2>
+            <ol>
+                <li>Vyberte záložku (Oznámení, Novinky, Akce…) a vyplňte formulář.</li>
+                <li>Klikněte na <strong>„Přidat"</strong> – položka se uloží do seznamu níže.</li>
+                <li>Až budete mít vše hotové, klikněte na <strong>„Generovat kód"</strong>.</li>
+                <li>Tlačítkem <strong>„Kopírovat"</strong> zkopírujte výsledný kód.</li>
+                <li>Otevřete soubor <code>site-data.js</code> ve VS Code, smažte starý obsah a vložte nový.</li>
+                <li>Uložte soubor a pushněte změny na GitHub — web se automaticky aktualizuje.</li>
+            </ol>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="announcements"><i class="fa-solid fa-bullhorn"></i>
+                Oznámení</button>
+            <button class="tab-btn" data-tab="news"><i class="fa-solid fa-newspaper"></i> Novinky</button>
+            <button class="tab-btn" data-tab="events"><i class="fa-solid fa-calendar-days"></i> Akce</button>
+            <button class="tab-btn" data-tab="export"><i class="fa-solid fa-code"></i> Generovat kód</button>
+        </div>
+
+        <!-- ==================== ANNOUNCEMENTS ==================== -->
+        <div class="tab-panel active" id="panel-announcements">
+            <div class="card">
+                <h3><i class="fa-solid fa-bullhorn"></i> Nové oznámení</h3>
+                <div class="form-grid">
+                    <div class="field full">
+                        <label>Text oznámení *</label>
+                        <input type="text" id="ann-text" placeholder="např. Pohádkáč 2026 — registrace otevřena!">
+                    </div>
+                    <div class="field">
+                        <label>Odkaz (stránka)</label>
+                        <select id="ann-link">
+                            <option value="akce.html">Akce</option>
+                            <option value="galerie.html">Galerie</option>
+                            <option value="info.html">O nás</option>
+                            <option value="index.html">Hlavní stránka</option>
+                        </select>
+                    </div>
+                    <div class="checkbox-field">
+                        <input type="checkbox" id="ann-badge">
+                        <label for="ann-badge">Zobrazit štítek „Nové"</label>
+                    </div>
+                    <div class="field full">
+                        <label>Ikona</label>
+                        <div class="icon-picker" id="ann-icons">
+                            <div class="icon-option selected" data-icon="fa-solid fa-star" title="Hvězda"><i
+                                    class="fa-solid fa-star"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-masks-theater" title="Masky"><i
+                                    class="fa-solid fa-masks-theater"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-camera" title="Fotoaparát"><i
+                                    class="fa-solid fa-camera"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-hand-holding-heart" title="Srdce"><i
+                                    class="fa-solid fa-hand-holding-heart"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-calendar-days" title="Kalendář"><i
+                                    class="fa-solid fa-calendar-days"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-gift" title="Dárek"><i
+                                    class="fa-solid fa-gift"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-music" title="Hudba"><i
+                                    class="fa-solid fa-music"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-tree" title="Strom"><i
+                                    class="fa-solid fa-tree"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-child-reaching" title="Dítě"><i
+                                    class="fa-solid fa-child-reaching"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-fire" title="Oheň"><i
+                                    class="fa-solid fa-fire"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-wand-magic-sparkles" title="Kouzlo"><i
+                                    class="fa-solid fa-wand-magic-sparkles"></i></div>
+                            <div class="icon-option" data-icon="fa-solid fa-bell" title="Zvonček"><i
+                                    class="fa-solid fa-bell"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div class="preview-box">
+                    <h4><i class="fa-solid fa-eye"></i> Náhled</h4>
+                    <div id="ann-preview"
+                        style="display:flex;align-items:center;gap:.5rem;font-size:.95rem;color:#1a1a2e;">
+                        <span
+                            style="background:#2563eb;color:#fff;padding:2px 8px;border-radius:6px;font-size:.7rem;font-weight:700;display:none;"
+                            id="ann-preview-badge">Nové</span>
+                        <i class="fa-solid fa-star" id="ann-preview-icon" style="color:#2563eb;"></i>
+                        <span id="ann-preview-text" style="color:#64748b;">Vyplňte formulář…</span>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-primary" id="ann-add"><i class="fa-solid fa-plus"></i> Přidat
+                        oznámení</button>
+                    <button class="btn btn-secondary" id="ann-clear"><i class="fa-solid fa-eraser"></i> Vyčistit
+                        formulář</button>
+                </div>
+            </div>
+
+            <!-- Current announcements list -->
+            <div class="card">
+                <h3><i class="fa-solid fa-list"></i> Seznam oznámení <span id="ann-count"
+                        style="color:#94a3b8;font-weight:400;font-size:.85rem;">(0)</span></h3>
+                <ul class="item-list" id="ann-list"></ul>
+                <p id="ann-empty" style="color:#94a3b8;font-size:.88rem;text-align:center;padding:1rem 0;">Zatím žádná
+                    oznámení. Přidejte první výše ☝️</p>
+            </div>
+        </div>
+
+        <!-- ==================== NEWS ==================== -->
+        <div class="tab-panel" id="panel-news">
+            <div class="card">
+                <h3><i class="fa-solid fa-newspaper"></i> Nová novinka</h3>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Štítek / kategorie *</label>
+                        <select id="news-tag">
+                            <option value="Masopust">Masopust</option>
+                            <option value="Pohádkáč">Pohádkáč</option>
+                            <option value="Tábor">Tábor</option>
+                            <option value="Dílny">Dílny</option>
+                            <option value="Setkání">Setkání</option>
+                            <option value="Čertobranní">Čertobranní</option>
+                            <option value="Oznámení">Oznámení</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Datum *</label>
+                        <input type="text" id="news-date" placeholder="např. 18. února 2026 nebo Připravujeme">
+                    </div>
+                    <div class="field full">
+                        <label>Titulek *</label>
+                        <input type="text" id="news-title" placeholder="např. Masopust 2026 — děkujeme!">
+                    </div>
+                    <div class="field full">
+                        <label>Text *</label>
+                        <textarea id="news-text" placeholder="Krátký popis novinky…"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>Obrázek (cesta k souboru)</label>
+                        <input type="text" id="news-image" placeholder="např. fotky_weby/masopust24/foto.jpg">
+                    </div>
+                    <div class="field">
+                        <label>Odkaz (kam vede tlačítko)</label>
+                        <select id="news-link">
+                            <option value="galerie.html">Galerie</option>
+                            <option value="akce.html">Akce</option>
+                            <option value="info.html">O nás</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="preview-box">
+                    <h4><i class="fa-solid fa-eye"></i> Náhled karty</h4>
+                    <div id="news-preview" style="display:flex;gap:1rem;align-items:flex-start;">
+                        <div style="flex:1;">
+                            <span id="news-preview-tag"
+                                style="display:inline-block;background:#dbeafe;color:#1d4ed8;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;">Masopust</span>
+                            <span id="news-preview-date"
+                                style="color:#94a3b8;font-size:.8rem;margin-left:.5rem;"></span>
+                            <h4 id="news-preview-title" style="font-size:1rem;margin:.4rem 0 .3rem;color:#1a1a2e;">
+                                Vyplňte formulář…</h4>
+                            <p id="news-preview-text" style="font-size:.85rem;color:#64748b;line-height:1.5;"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-primary" id="news-add"><i class="fa-solid fa-plus"></i> Přidat
+                        novinku</button>
+                    <button class="btn btn-secondary" id="news-clear"><i class="fa-solid fa-eraser"></i> Vyčistit
+                        formulář</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fa-solid fa-list"></i> Seznam novinek <span id="news-count"
+                        style="color:#94a3b8;font-weight:400;font-size:.85rem;">(0)</span> <span
+                        style="color:#94a3b8;font-size:.8rem;">— max 6, nová nahradí poslední</span></h3>
+                <ul class="item-list" id="news-list"></ul>
+                <p id="news-empty" style="color:#94a3b8;font-size:.88rem;text-align:center;padding:1rem 0;">Zatím žádné
+                    novinky. Přidejte první výše ☝️</p>
+            </div>
+        </div>
+
+        <!-- ==================== EVENTS ==================== -->
+        <div class="tab-panel" id="panel-events">
+            <div class="card">
+                <h3><i class="fa-solid fa-calendar-days"></i> Nová akce</h3>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Datum *</label>
+                        <input type="text" id="ev-date" placeholder="např. 19. dubna 2026">
+                    </div>
+                    <div class="field">
+                        <label>Čas</label>
+                        <input type="text" id="ev-time" placeholder="např. 10:00 – 15:00">
+                    </div>
+                    <div class="field full">
+                        <label>Název *</label>
+                        <input type="text" id="ev-title" placeholder="např. Velikonoční tvořivé dílny">
+                    </div>
+                    <div class="field full">
+                        <label>Popis *</label>
+                        <textarea id="ev-text" placeholder="Popis akce…"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>Místo *</label>
+                        <input type="text" id="ev-location" placeholder="např. Komunitní centrum Zeleneč">
+                    </div>
+                    <div class="field">
+                        <label>Štítek</label>
+                        <select id="ev-tag">
+                            <option value="">— žádný —</option>
+                            <option value="Pohádkáč">Pohádkáč</option>
+                            <option value="Masopust">Masopust</option>
+                            <option value="Dílny">Dílny</option>
+                            <option value="Tábor">Tábor</option>
+                            <option value="Setkání">Setkání</option>
+                            <option value="Čertobranní">Čertobranní</option>
+                        </select>
+                    </div>
+                    <div class="checkbox-field">
+                        <input type="checkbox" id="ev-upcoming" checked>
+                        <label for="ev-upcoming">Nadcházející akce (odškrtněte pro proběhlou)</label>
+                    </div>
+                    <div class="checkbox-field">
+                        <input type="checkbox" id="ev-gallery">
+                        <label for="ev-gallery">Odkaz na galerii (pro proběhlé akce)</label>
+                    </div>
+                </div>
+
+                <div class="preview-box">
+                    <h4><i class="fa-solid fa-eye"></i> Náhled</h4>
+                    <div id="ev-preview">
+                        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;">
+                            <span id="ev-preview-badge"
+                                style="background:#dcfce7;color:#16a34a;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;">Nadcházející</span>
+                            <span id="ev-preview-date" style="color:#2563eb;font-weight:600;font-size:.9rem;"></span>
+                        </div>
+                        <h4 id="ev-preview-title" style="font-size:1rem;margin:.3rem 0;color:#1a1a2e;">Vyplňte formulář…
+                        </h4>
+                        <p id="ev-preview-text" style="font-size:.85rem;color:#64748b;margin-bottom:.3rem;"></p>
+                        <div style="display:flex;gap:1rem;font-size:.82rem;color:#94a3b8;">
+                            <span><i class="fa-solid fa-location-dot"></i> <span id="ev-preview-loc">—</span></span>
+                            <span><i class="fa-solid fa-clock"></i> <span id="ev-preview-time">—</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-primary" id="ev-add"><i class="fa-solid fa-plus"></i> Přidat akci</button>
+                    <button class="btn btn-secondary" id="ev-clear"><i class="fa-solid fa-eraser"></i> Vyčistit
+                        formulář</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fa-solid fa-list"></i> Nadcházející akce <span id="ev-upcoming-count"
+                        style="color:#94a3b8;font-weight:400;font-size:.85rem;">(0)</span></h3>
+                <ul class="item-list" id="ev-upcoming-list"></ul>
+                <p id="ev-upcoming-empty" style="color:#94a3b8;font-size:.88rem;text-align:center;padding:1rem 0;">Žádné
+                    nadcházející akce.</p>
+            </div>
+
+            <div class="card">
+                <h3><i class="fa-solid fa-list"></i> Proběhlé akce <span id="ev-past-count"
+                        style="color:#94a3b8;font-weight:400;font-size:.85rem;">(0)</span></h3>
+                <ul class="item-list" id="ev-past-list"></ul>
+                <p id="ev-past-empty" style="color:#94a3b8;font-size:.88rem;text-align:center;padding:1rem 0;">Žádné
+                    proběhlé akce.</p>
+            </div>
+        </div>
+
+        <!-- ==================== EXPORT ==================== -->
+        <div class="tab-panel" id="panel-export">
+            <div class="card">
+                <h3><i class="fa-solid fa-code"></i> Vygenerovaný kód pro site-data.js</h3>
+                <p style="font-size:.88rem;color:#64748b;margin-bottom:.75rem;">
+                    Níže se vygeneruje kompletní obsah souboru <code
+                        style="background:#e2e8f0;padding:1px 5px;border-radius:4px;font-size:.85rem;">site-data.js</code>.
+                    Stačí zkopírovat a nahradit celý stávající soubor.
+                </p>
+                <div class="btn-row" style="margin-top:0;">
+                    <button class="btn btn-primary" id="export-generate"><i class="fa-solid fa-gears"></i> Generovat
+                        kód</button>
+                    <button class="btn btn-success" id="export-copy"><i class="fa-solid fa-copy"></i> Kopírovat do
+                        schránky</button>
+                    <button class="btn btn-secondary" id="export-download"><i class="fa-solid fa-download"></i> Stáhnout
+                        soubor</button>
+                </div>
+                <div class="code-output" id="export-code">// Klikněte na „Generovat kód" ↑</div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fa-solid fa-circle-question"></i> Co dál?</h3>
+                <ol style="padding-left:1.5rem;font-size:.9rem;color:#475569;line-height:1.8;">
+                    <li>Otevřete <strong>VS Code</strong> a soubor <code
+                            style="background:#e2e8f0;padding:1px 5px;border-radius:4px;">site-data.js</code>.</li>
+                    <li>Vyberte celý obsah (<kbd>Ctrl+A</kbd>) a smažte ho (<kbd>Delete</kbd>).</li>
+                    <li>Vložte zkopírovaný kód (<kbd>Ctrl+V</kbd>) a uložte (<kbd>Ctrl+S</kbd>).</li>
+                    <li>Otevřete terminál v VS Code (<kbd>Ctrl+`</kbd>).</li>
+                    <li>Napište: <code
+                            style="background:#e2e8f0;padding:1px 5px;border-radius:4px;">git add . &amp;&amp; git commit -m "update obsahu" &amp;&amp; git push</code>
+                    </li>
+                    <li>Za pár sekund se změny projeví na webu ✅</li>
+                </ol>
+            </div>
+        </div>
+
+    </div><!-- /container -->
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Load current site data as defaults -->
+    <script src="site-data.js"></script>
+
+    <script>
+        /* ============================================
+           ADMIN PANEL — Logic
+           ============================================ */
+
+        // ---- State (initialized from site-data.js) ----
+        const MAX_NEWS = 6;
+        let announcements = typeof ANNOUNCEMENTS !== 'undefined' ? [...ANNOUNCEMENTS] : [];
+        let newsItems = typeof NEWS_DATA !== 'undefined' ? [...NEWS_DATA] : [];
+        let events = typeof EVENTS_DATA !== 'undefined' ? [...EVENTS_DATA] : [];
+        let editIndex = { ann: -1, news: -1, ev: -1 };
+
+        // ---- Helpers ----
+        function $(sel) { return document.querySelector(sel); }
+        function $$(sel) { return document.querySelectorAll(sel); }
+
+        function saveState() {
+            localStorage.setItem('kozel-admin-state', JSON.stringify({ announcements, newsItems, events }));
+        }
+
+        function toast(msg) {
+            const t = $('#toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function escJS(s) {
+            return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n');
+        }
+
+        // ---- Tabs ----
+        $$('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                $$('.tab-btn').forEach(b => b.classList.remove('active'));
+                $$('.tab-panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                $(`#panel-${btn.dataset.tab}`).classList.add('active');
+            });
+        });
+
+        // ---- Icon Picker ----
+        $('#ann-icons').addEventListener('click', e => {
+            const opt = e.target.closest('.icon-option');
+            if (!opt) return;
+            $$('#ann-icons .icon-option').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            updateAnnPreview();
+        });
+
+        // ========================================================
+        // ANNOUNCEMENTS
+        // ========================================================
+        function getSelectedIcon() {
+            const sel = $('#ann-icons .icon-option.selected');
+            return sel ? sel.dataset.icon : 'fa-solid fa-star';
+        }
+
+        function updateAnnPreview() {
+            const text = $('#ann-text').value.trim();
+            const badge = $('#ann-badge').checked;
+            const icon = getSelectedIcon();
+
+            $('#ann-preview-text').textContent = text || 'Vyplňte formulář…';
+            $('#ann-preview-text').style.color = text ? '#1a1a2e' : '#64748b';
+            $('#ann-preview-icon').className = icon;
+            $('#ann-preview-badge').style.display = badge ? 'inline-block' : 'none';
+        }
+
+        $('#ann-text').addEventListener('input', updateAnnPreview);
+        $('#ann-badge').addEventListener('change', updateAnnPreview);
+
+        function clearAnnForm() {
+            $('#ann-text').value = '';
+            $('#ann-link').value = 'akce.html';
+            $('#ann-badge').checked = false;
+            $$('#ann-icons .icon-option').forEach(o => o.classList.remove('selected'));
+            $('#ann-icons .icon-option').classList.add('selected');
+            editIndex.ann = -1;
+            $('#ann-add').innerHTML = '<i class="fa-solid fa-plus"></i> Přidat oznámení';
+            updateAnnPreview();
+        }
+
+        $('#ann-clear').addEventListener('click', clearAnnForm);
+
+        $('#ann-add').addEventListener('click', () => {
+            const text = $('#ann-text').value.trim();
+            if (!text) { toast('⚠️ Vyplňte text oznámení'); return; }
+
+            const item = {
+                text,
+                link: $('#ann-link').value,
+                icon: getSelectedIcon(),
+                badge: $('#ann-badge').checked || undefined
+            };
+
+            if (editIndex.ann >= 0) {
+                announcements[editIndex.ann] = item;
+                toast('✅ Oznámení upraveno');
+            } else {
+                announcements.push(item);
+                toast('✅ Oznámení přidáno');
+            }
+
+            saveState();
+            renderAnnList();
+            clearAnnForm();
+        });
+
+        function renderAnnList() {
+            const list = $('#ann-list');
+            const empty = $('#ann-empty');
+            const count = $('#ann-count');
+            count.textContent = `(${announcements.length})`;
+
+            if (announcements.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+            list.innerHTML = announcements.map((a, i) => `
+        <li>
+            <span class="item-icon"><i class="${a.icon}"></i></span>
+            <span class="item-text">${a.badge ? '<span style="background:#2563eb;color:#fff;padding:1px 6px;border-radius:4px;font-size:.7rem;margin-right:4px;">Nové</span>' : ''}${a.text}</span>
+            <span class="item-meta">${a.link}</span>
+            <span class="item-actions">
+                <button class="item-edit" onclick="editAnn(${i})" title="Upravit"><i class="fa-solid fa-pen"></i></button>
+                <button class="item-delete" onclick="deleteAnn(${i})" title="Smazat"><i class="fa-solid fa-trash"></i></button>
+            </span>
+        </li>
+    `).join('');
+        }
+
+        window.editAnn = function (i) {
+            const a = announcements[i];
+            $('#ann-text').value = a.text;
+            $('#ann-link').value = a.link;
+            $('#ann-badge').checked = !!a.badge;
+            $$('#ann-icons .icon-option').forEach(o => {
+                o.classList.toggle('selected', o.dataset.icon === a.icon);
+            });
+            editIndex.ann = i;
+            $('#ann-add').innerHTML = '<i class="fa-solid fa-pen"></i> Uložit změny';
+            updateAnnPreview();
+            // Scroll to form
+            $('#panel-announcements .card').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.deleteAnn = function (i) {
+            if (!confirm('Smazat oznámení „' + announcements[i].text + '"?')) return;
+            announcements.splice(i, 1);
+            saveState();
+            renderAnnList();
+            toast('🗑️ Oznámení smazáno');
+        };
+
+        // ========================================================
+        // NEWS
+        // ========================================================
+        function updateNewsPreview() {
+            const tag = $('#news-tag').value;
+            const date = $('#news-date').value.trim();
+            const title = $('#news-title').value.trim();
+            const text = $('#news-text').value.trim();
+
+            $('#news-preview-tag').textContent = tag;
+            $('#news-preview-date').textContent = date;
+            $('#news-preview-title').textContent = title || 'Vyplňte formulář…';
+            $('#news-preview-title').style.color = title ? '#1a1a2e' : '#94a3b8';
+            $('#news-preview-text').textContent = text;
+        }
+
+        ['#news-tag', '#news-date', '#news-title', '#news-text'].forEach(sel => {
+            $(sel).addEventListener('input', updateNewsPreview);
+            $(sel).addEventListener('change', updateNewsPreview);
+        });
+
+        function clearNewsForm() {
+            $('#news-tag').value = 'Masopust';
+            $('#news-date').value = '';
+            $('#news-title').value = '';
+            $('#news-text').value = '';
+            $('#news-image').value = '';
+            $('#news-link').value = 'galerie.html';
+            editIndex.news = -1;
+            $('#news-add').innerHTML = '<i class="fa-solid fa-plus"></i> Přidat novinku';
+            updateNewsPreview();
+        }
+
+        $('#news-clear').addEventListener('click', clearNewsForm);
+
+        $('#news-add').addEventListener('click', () => {
+            const tag = $('#news-tag').value;
+            const date = $('#news-date').value.trim();
+            const title = $('#news-title').value.trim();
+            const text = $('#news-text').value.trim();
+            const image = $('#news-image').value.trim();
+            const link = $('#news-link').value;
+
+            if (!date || !title || !text) {
+                toast('⚠️ Vyplňte datum, titulek a text');
+                return;
+            }
+
+            const item = { tag, date, title, text, image: image || 'Logo_Kozel.png', link };
+
+            if (editIndex.news >= 0) {
+                newsItems[editIndex.news] = item;
+                toast('✅ Novinka upravena');
+            } else {
+                // Vždy udržovat max 6 novinek — nová nahradí poslední
+                if (newsItems.length >= MAX_NEWS) {
+                    newsItems.pop();
+                }
+                newsItems.unshift(item); // newest first
+                toast('✅ Novinka přidána (poslední nahrazena)');
+            }
+
+            saveState();
+            renderNewsList();
+            clearNewsForm();
+        });
+
+        function renderNewsList() {
+            const list = $('#news-list');
+            const empty = $('#news-empty');
+            const count = $('#news-count');
+            count.textContent = `(${newsItems.length})`;
+
+            if (newsItems.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+            list.innerHTML = newsItems.map((n, i) => `
+        <li>
+            <span class="item-icon"><i class="fa-solid fa-newspaper"></i></span>
+            <span class="item-text"><strong>${n.title}</strong></span>
+            <span class="item-meta">${n.tag} · ${n.date}</span>
+            <span class="item-actions">
+                <button class="item-edit" onclick="editNews(${i})" title="Upravit"><i class="fa-solid fa-pen"></i></button>
+                <button class="item-delete" onclick="deleteNews(${i})" title="Smazat"><i class="fa-solid fa-trash"></i></button>
+            </span>
+        </li>
+    `).join('');
+        }
+
+        window.editNews = function (i) {
+            const n = newsItems[i];
+            $('#news-tag').value = n.tag;
+            $('#news-date').value = n.date;
+            $('#news-title').value = n.title;
+            $('#news-text').value = n.text;
+            $('#news-image').value = n.image;
+            $('#news-link').value = n.link;
+            editIndex.news = i;
+            $('#news-add').innerHTML = '<i class="fa-solid fa-pen"></i> Uložit změny';
+            updateNewsPreview();
+            $('#panel-news .card').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.deleteNews = function (i) {
+            if (!confirm('Smazat novinku „' + newsItems[i].title + '"?')) return;
+            newsItems.splice(i, 1);
+            saveState();
+            renderNewsList();
+            toast('🗑️ Novinka smazána');
+        };
+
+        // ========================================================
+        // EVENTS
+        // ========================================================
+        function updateEvPreview() {
+            const date = $('#ev-date').value.trim();
+            const title = $('#ev-title').value.trim();
+            const text = $('#ev-text').value.trim();
+            const loc = $('#ev-location').value.trim();
+            const time = $('#ev-time').value.trim();
+            const upcoming = $('#ev-upcoming').checked;
+
+            $('#ev-preview-badge').textContent = upcoming ? 'Nadcházející' : 'Proběhlá';
+            $('#ev-preview-badge').style.background = upcoming ? '#dcfce7' : '#fee2e2';
+            $('#ev-preview-badge').style.color = upcoming ? '#16a34a' : '#dc2626';
+            $('#ev-preview-date').textContent = date;
+            $('#ev-preview-title').textContent = title || 'Vyplňte formulář…';
+            $('#ev-preview-title').style.color = title ? '#1a1a2e' : '#94a3b8';
+            $('#ev-preview-text').textContent = text;
+            $('#ev-preview-loc').textContent = loc || '—';
+            $('#ev-preview-time').textContent = time || '—';
+        }
+
+        ['#ev-date', '#ev-title', '#ev-text', '#ev-location', '#ev-time'].forEach(sel => {
+            $(sel).addEventListener('input', updateEvPreview);
+        });
+        $('#ev-upcoming').addEventListener('change', updateEvPreview);
+
+        function clearEvForm() {
+            $('#ev-date').value = '';
+            $('#ev-time').value = '';
+            $('#ev-title').value = '';
+            $('#ev-text').value = '';
+            $('#ev-location').value = '';
+            $('#ev-tag').value = '';
+            $('#ev-upcoming').checked = true;
+            $('#ev-gallery').checked = false;
+            editIndex.ev = -1;
+            $('#ev-add').innerHTML = '<i class="fa-solid fa-plus"></i> Přidat akci';
+            updateEvPreview();
+        }
+
+        $('#ev-clear').addEventListener('click', clearEvForm);
+
+        $('#ev-add').addEventListener('click', () => {
+            const date = $('#ev-date').value.trim();
+            const title = $('#ev-title').value.trim();
+            const text = $('#ev-text').value.trim();
+            const location = $('#ev-location').value.trim();
+            const time = $('#ev-time').value.trim();
+            const tag = $('#ev-tag').value;
+            const upcoming = $('#ev-upcoming').checked;
+            const galleryLink = $('#ev-gallery').checked;
+
+            if (!date || !title || !text || !location) {
+                toast('⚠️ Vyplňte datum, název, popis a místo');
+                return;
+            }
+
+            const item = { upcoming, date, title, text, location };
+            if (time) item.time = time;
+            if (tag) item.tag = tag;
+            if (galleryLink) item.galleryLink = true;
+
+            if (editIndex.ev >= 0) {
+                events[editIndex.ev] = item;
+                toast('✅ Akce upravena');
+            } else {
+                events.push(item);
+                toast('✅ Akce přidána');
+            }
+
+            saveState();
+            renderEvLists();
+            clearEvForm();
+        });
+
+        function renderEvLists() {
+            const upList = $('#ev-upcoming-list');
+            const pastList = $('#ev-past-list');
+            const upEmpty = $('#ev-upcoming-empty');
+            const pastEmpty = $('#ev-past-empty');
+            const upCount = $('#ev-upcoming-count');
+            const pastCount = $('#ev-past-count');
+
+            const upcoming = events.filter(e => e.upcoming);
+            const past = events.filter(e => !e.upcoming);
+
+            upCount.textContent = `(${upcoming.length})`;
+            pastCount.textContent = `(${past.length})`;
+
+            if (upcoming.length === 0) {
+                upList.innerHTML = '';
+                upEmpty.style.display = 'block';
+            } else {
+                upEmpty.style.display = 'none';
+                upList.innerHTML = upcoming.map((ev) => {
+                    const realIdx = events.indexOf(ev);
+                    return `
+            <li>
+                <span class="item-icon"><i class="fa-solid fa-calendar-check" style="color:#16a34a;"></i></span>
+                <span class="item-text"><strong>${ev.title}</strong></span>
+                <span class="item-meta">${ev.date} · ${ev.location}</span>
+                <span class="item-actions">
+                    <button class="item-edit" onclick="editEv(${realIdx})" title="Upravit"><i class="fa-solid fa-pen"></i></button>
+                    <button class="item-delete" onclick="deleteEv(${realIdx})" title="Smazat"><i class="fa-solid fa-trash"></i></button>
+                </span>
+            </li>`;
+                }).join('');
+            }
+
+            if (past.length === 0) {
+                pastList.innerHTML = '';
+                pastEmpty.style.display = 'block';
+            } else {
+                pastEmpty.style.display = 'none';
+                pastList.innerHTML = past.map((ev) => {
+                    const realIdx = events.indexOf(ev);
+                    return `
+            <li>
+                <span class="item-icon"><i class="fa-solid fa-calendar-xmark" style="color:#dc2626;"></i></span>
+                <span class="item-text"><strong>${ev.title}</strong></span>
+                <span class="item-meta">${ev.date} · ${ev.location}</span>
+                <span class="item-actions">
+                    <button class="item-edit" onclick="editEv(${realIdx})" title="Upravit"><i class="fa-solid fa-pen"></i></button>
+                    <button class="item-delete" onclick="deleteEv(${realIdx})" title="Smazat"><i class="fa-solid fa-trash"></i></button>
+                </span>
+            </li>`;
+                }).join('');
+            }
+        }
+
+        window.editEv = function (i) {
+            const ev = events[i];
+            $('#ev-date').value = ev.date;
+            $('#ev-time').value = ev.time || '';
+            $('#ev-title').value = ev.title;
+            $('#ev-text').value = ev.text;
+            $('#ev-location').value = ev.location;
+            $('#ev-tag').value = ev.tag || '';
+            $('#ev-upcoming').checked = ev.upcoming;
+            $('#ev-gallery').checked = !!ev.galleryLink;
+            editIndex.ev = i;
+            $('#ev-add').innerHTML = '<i class="fa-solid fa-pen"></i> Uložit změny';
+            updateEvPreview();
+            $('#panel-events .card').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.deleteEv = function (i) {
+            if (!confirm('Smazat akci „' + events[i].title + '"?')) return;
+            events.splice(i, 1);
+            saveState();
+            renderEvLists();
+            toast('🗑️ Akce smazána');
+        };
+
+        // ========================================================
+        // EXPORT — generate site-data.js
+        // ========================================================
+        function generateCode() {
+            let code = `/* ============================================\n`;
+            code += `   SPOLEK KOZEL — Site Content Data\n`;
+            code += `   Edit this file to add/update news and events.\n`;
+            code += `   ============================================ */\n\n`;
+
+            // Announcements
+            code += `/**\n * ANNOUNCEMENTS — marquee bar on index.html\n * Each item: { text, link, icon, badge? }\n * badge is optional — shows a "Nové" label before the icon.\n */\n`;
+            code += `const ANNOUNCEMENTS = [\n`;
+            announcements.forEach((a, i) => {
+                code += `    { text: '${escJS(a.text)}', link: '${escJS(a.link)}', icon: '${escJS(a.icon)}'`;
+                if (a.badge) code += `, badge: true`;
+                code += ` }`;
+                if (i < announcements.length - 1) code += ',';
+                code += '\n';
+            });
+            code += `];\n\n`;
+
+            // News
+            code += `/**\n * NEWS_DATA — cards displayed on index.html\n * Add new items at the top of the array (newest first).\n */\n`;
+            code += `const NEWS_DATA = [\n`;
+            newsItems.forEach((n, i) => {
+                code += `    {\n`;
+                code += `        tag: '${escJS(n.tag)}',\n`;
+                code += `        date: '${escJS(n.date)}',\n`;
+                code += `        title: '${escJS(n.title)}',\n`;
+                code += `        text: '${escJS(n.text)}',\n`;
+                code += `        image: '${escJS(n.image)}',\n`;
+                code += `        link: '${escJS(n.link)}'\n`;
+                code += `    }`;
+                if (i < newsItems.length - 1) code += ',';
+                code += '\n';
+            });
+            code += `];\n\n`;
+
+            // Events
+            code += `/**\n * EVENTS_DATA — timeline displayed on akce.html\n * upcoming: true = "Nadcházející akce", false = "Proběhlé akce"\n * Add new events at the top of each group.\n */\n`;
+            code += `const EVENTS_DATA = [\n`;
+
+            const upcoming = events.filter(e => e.upcoming);
+            const past = events.filter(e => !e.upcoming);
+            const allOrdered = [...upcoming, ...past];
+
+            if (upcoming.length > 0 && past.length > 0) {
+                // Add comments for sections
+                code += `    // ——— Nadcházející ———\n`;
+            }
+
+            allOrdered.forEach((ev, i) => {
+                if (i === upcoming.length && past.length > 0) {
+                    code += `\n    // ——— Proběhlé ———\n`;
+                }
+                code += `    {\n`;
+                code += `        upcoming: ${ev.upcoming},\n`;
+                code += `        date: '${escJS(ev.date)}',\n`;
+                code += `        title: '${escJS(ev.title)}',\n`;
+                code += `        text: '${escJS(ev.text)}',\n`;
+                code += `        location: '${escJS(ev.location)}'`;
+                if (ev.time) code += `,\n        time: '${escJS(ev.time)}'`;
+                if (ev.tag) code += `,\n        tag: '${escJS(ev.tag)}'`;
+                if (ev.galleryLink) code += `,\n        galleryLink: true`;
+                code += `\n    }`;
+                if (i < allOrdered.length - 1) code += ',';
+                code += '\n';
+            });
+            code += `];\n`;
+
+            return code;
+        }
+
+        $('#export-generate').addEventListener('click', () => {
+            const code = generateCode();
+            $('#export-code').textContent = code;
+            toast('✅ Kód vygenerován');
+        });
+
+        $('#export-copy').addEventListener('click', async () => {
+            const code = generateCode();
+            $('#export-code').textContent = code;
+            try {
+                await navigator.clipboard.writeText(code);
+                toast('📋 Zkopírováno do schránky!');
+            } catch (e) {
+                // Fallback
+                const ta = document.createElement('textarea');
+                ta.value = code;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                toast('📋 Zkopírováno do schránky!');
+            }
+        });
+
+        $('#export-download').addEventListener('click', () => {
+            const code = generateCode();
+            const blob = new Blob([code], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'site-data.js';
+            a.click();
+            URL.revokeObjectURL(url);
+            toast('📥 Soubor stažen');
+        });
+
+        // ========================================================
+        // INIT — render saved state
+        // ========================================================
+        renderAnnList();
+        renderNewsList();
+        renderEvLists();
+
+    </script>
+</body>
+
+</html>

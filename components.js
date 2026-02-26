@@ -3,7 +3,7 @@
    ============================================ */
 
 (function () {
-    const page = location.pathname.split('/').pop() || 'main.html';
+    const page = location.pathname.split('/').pop() || 'index.html';
 
     // ========== HEADER ==========
     const headerEl = document.getElementById('site-header');
@@ -11,7 +11,7 @@
         headerEl.outerHTML = `
     <header class="site-header" id="siteHeader">
         <div class="header-inner">
-            <a href="main.html" class="logo-link">
+            <a href="index.html" class="logo-link">
                 <img src="Logo_Kozel.png" alt="Logo Spolek KOZEL" class="logo-icon">
                 <div class="logo-text">
                     <span class="logo-name">KOZEL</span>
@@ -21,7 +21,7 @@
 
             <nav class="main-nav" aria-label="Hlavní navigace">
                 <ul>
-                    <li><a href="main.html"><i class="fa-solid fa-house" aria-hidden="true"></i> Úvod</a></li>
+                    <li><a href="index.html"><i class="fa-solid fa-house" aria-hidden="true"></i> Úvod</a></li>
                     <li><a href="galerie.html"><i class="fa-solid fa-images" aria-hidden="true"></i> Galerie</a></li>
                     <li><a href="akce.html"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Akce</a></li>
                     <li><a href="info.html"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> O nás</a></li>
@@ -44,7 +44,7 @@
 
     <nav class="mobile-nav" id="mobileNav" aria-label="Mobilní navigace">
         <ul>
-            <li><a href="main.html"><i class="fa-solid fa-house" aria-hidden="true"></i> Úvod</a></li>
+            <li><a href="index.html"><i class="fa-solid fa-house" aria-hidden="true"></i> Úvod</a></li>
             <li><a href="galerie.html"><i class="fa-solid fa-images" aria-hidden="true"></i> Galerie</a></li>
             <li><a href="akce.html"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Akce</a></li>
             <li><a href="info.html"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> O nás</a></li>
@@ -63,7 +63,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col footer-about">
-                    <a href="main.html" class="logo-link">
+                    <a href="index.html" class="logo-link">
                         <img src="Logo_Kozel.png" alt="Logo Spolek KOZEL" class="logo-icon">
                         <div class="logo-text">
                             <span class="logo-name">KOZEL</span>
@@ -85,7 +85,7 @@
                 <div class="footer-col">
                     <h4>Navigace</h4>
                     <ul>
-                        <li><a href="main.html"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i> Úvod</a></li>
+                        <li><a href="index.html"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i> Úvod</a></li>
                         <li><a href="galerie.html"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i> Galerie</a></li>
                         <li><a href="akce.html"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i> Akce</a></li>
                         <li><a href="info.html"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i> O nás</a></li>
@@ -130,6 +130,7 @@
                 <span>
                     Vytvořeno s <i class="fa-solid fa-heart footer-heart" aria-hidden="true"></i>
                     pro komunitu v Zelenči
+                    · <a href="admin.html" style="color:#64748b;font-size:.75rem;text-decoration:none;opacity:.5;" title="Správa obsahu">admin</a>
                 </span>
             </div>
         </div>
@@ -143,7 +144,7 @@
     // ========== SET ACTIVE NAV LINK ==========
     document.querySelectorAll('.main-nav a, .mobile-nav ul a').forEach(a => {
         const href = a.getAttribute('href');
-        if (href === page || (page === '' && href === 'main.html')) {
+        if (href === page || (page === '' && href === 'index.html')) {
             a.classList.add('active');
         }
     });

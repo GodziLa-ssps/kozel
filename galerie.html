@@ -6,22 +6,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Galerie fotografií z akcí spolku KOZEL – pohádkové stezky, masopusty a tvořivé dílny v Zelenči.">
+    <meta name="description"
+        content="Galerie fotografií z akcí spolku KOZEL – pohádkové stezky, masopusty a tvořivé dílny v Zelenči.">
+    <meta name="author" content="Spolek KOZEL">
+    <meta property="og:title" content="Galerie – Spolek KOZEL">
+    <meta property="og:description"
+        content="Galerie fotografií z akcí spolku KOZEL – pohádkové stezky, masopusty a tvořivé dílny v Zelenči.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://godzila-ssps.github.io/kozel/Logo_Kozel.png">
     <meta name="theme-color" content="#2563eb">
     <title>Galerie – Spolek KOZEL</title>
-    <link rel="icon" type="image/png" href="Logo_Kozel.png">
+    <link rel="icon" type="image/png" href="Icon_Kozel.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
-    <script>const t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
+    <script>const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t);</script>
 
     <!-- Skip to content -->
     <a href="#galleryContainer" class="skip-link">Přeskočit na obsah</a>
@@ -35,7 +43,7 @@
             <h1><i class="fa-solid fa-images" aria-hidden="true"></i> Galerie</h1>
             <p>Fotografie z našich akcí a setkání</p>
             <div class="breadcrumb">
-                <a href="main.html">Úvod</a>
+                <a href="index.html">Úvod</a>
                 <span class="separator">/</span>
                 <span>Galerie</span>
             </div>
@@ -51,6 +59,7 @@
                 <button class="filter-btn active" data-filter="all">Vše</button>
                 <button class="filter-btn" data-filter="masopust">Masopust</button>
                 <button class="filter-btn" data-filter="pohadkac">Pohádkáč</button>
+                <button class="filter-btn" data-filter="certobrani">Čertobranní</button>
             </div>
 
             <!-- Gallery rendered by JS from gallery-data.js -->

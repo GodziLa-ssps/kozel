@@ -76,18 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const siteHeader = document.getElementById('siteHeader');
 
     if (siteHeader) {
-        let lastScroll = 0;
-
         const handleHeaderScroll = () => {
-            const currentScroll = window.scrollY;
-
-            if (currentScroll > 10) {
+            if (window.scrollY > 10) {
                 siteHeader.classList.add('scrolled');
             } else {
                 siteHeader.classList.remove('scrolled');
             }
-
-            lastScroll = currentScroll;
         };
 
         window.addEventListener('scroll', handleHeaderScroll, { passive: true });
@@ -154,6 +148,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===========================
     // 5. COUNTER ANIMATION (about stats)
     // ===========================
+
+    // Dynamicky vypočítat roky činnosti z roku založení
+    document.querySelectorAll('.stat-number[data-founding-year]').forEach(el => {
+        const founded = parseInt(el.getAttribute('data-founding-year'), 10);
+        el.setAttribute('data-target', new Date().getFullYear() - founded);
+    });
+
     const statNumbers = document.querySelectorAll('.stat-number[data-target]');
 
     if (statNumbers.length > 0) {
@@ -174,8 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (progress < 1) {
                     requestAnimationFrame(update);
                 } else {
-                    // Add "+" for large numbers
-                    if (target >= 100) {
+                    // Add suffix if data-suffix is set, or "+" for large numbers
+                    const suffix = el.getAttribute('data-suffix') || '';
+                    if (suffix) {
+                        el.textContent = target + suffix;
+                    } else if (target >= 100) {
                         el.textContent = target + '+';
                     }
                 }
@@ -205,6 +209,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // All rendered gallery-item elements (populated after render)
     let allGalleryItems = [];
     const INITIAL_SHOW = 12; // photos per year-section before "show more"
+
+    /**
+     * Get thumbnail path for a photo.
+     * Thumbnails are in thumbs/ as .webp, originals in fotky_weby/.
+     * Falls back to original if thumbs folder doesn't exist.
+     */
+    function getThumbSrc(folder, photo) {
+        // folder = 'fotky_weby/masopust24', photo = 'photo.jpg'
+        // thumb  = 'thumbs/masopust24/photo.webp'
+        const rel = folder.replace(/^fotky_weby\//, '');
+        const webpName = photo.replace(/\.[^.]+$/, '.webp');
+        return `thumbs/${rel}/${webpName}`;
+    }
 
     /**
      * Build the gallery HTML: year-sections with grids of photos.
@@ -249,11 +266,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Render photos (first INITIAL_SHOW visible)
             group.photos.forEach((photo, i) => {
-                const src = `${group.folder}/${photo}`;
+                const fullSrc = `${group.folder}/${photo}`;
+                const thumbSrc = getThumbSrc(group.folder, photo);
                 const item = document.createElement('div');
                 item.className = 'gallery-item';
                 item.dataset.category = group.category;
-                item.dataset.src = src;
+                item.dataset.src = fullSrc;
                 item.dataset.caption = `${group.title} — ${i + 1}/${group.photos.length}`;
 
                 if (i >= INITIAL_SHOW) {
@@ -261,7 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 item.innerHTML = `
-                    <img src="${src}" alt="${group.title}" loading="lazy">
+                    <img src="${thumbSrc}" alt="${group.title}" loading="lazy"
+                         onerror="this.onerror=null;this.src='${fullSrc}'">
                     <div class="gallery-item-overlay">
                         <span>${group.title}</span>
                     </div>
@@ -329,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return allGalleryItems.filter(item => {
             // Must be in a visible section and not hidden by "show more"
             return !item.classList.contains('gallery-hidden') &&
-                   item.offsetParent !== null;
+                item.offsetParent !== null;
         });
     }
 
@@ -500,11 +519,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===========================
-    // 11. ANNOUNCEMENT BAR (CSS marquee, no JS needed)
+    // 11. ANNOUNCEMENT BAR (from site-data.js)
     // ===========================
+    const announcementTrack = document.getElementById('announcementTrack');
+
+    if (announcementTrack && typeof ANNOUNCEMENTS !== 'undefined' && ANNOUNCEMENTS.length > 0) {
+        function buildAnnouncementInner(ariaHidden) {
+            const div = document.createElement('div');
+            div.className = 'announcement-inner';
+            if (ariaHidden) div.setAttribute('aria-hidden', 'true');
+
+            ANNOUNCEMENTS.forEach(item => {
+                const a = document.createElement('a');
+                a.href = item.link;
+                a.className = 'announcement-item';
+                let html = '';
+                if (item.badge) html += '<span class="badge">Nové</span>';
+                html += `<i class="${item.icon}" aria-hidden="true"></i> ${item.text}`;
+                a.innerHTML = html;
+                div.appendChild(a);
+            });
+            return div;
+        }
+
+        // Original + duplicate for seamless CSS marquee loop
+        announcementTrack.appendChild(buildAnnouncementInner(false));
+        announcementTrack.appendChild(buildAnnouncementInner(true));
+    }
 
     // ===========================
-    // 13. MAP CONSENT (GDPR)
+    // 12. MAP CONSENT (GDPR)
     // ===========================
     const loadMapBtn = document.getElementById('loadMapBtn');
     const mapContainer = document.getElementById('mapContainer');
@@ -537,7 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===========================
-    // 14. SCROLL PROGRESS BAR
+    // 13. SCROLL PROGRESS BAR
     // ===========================
     const progressBar = document.createElement('div');
     progressBar.className = 'scroll-progress';
@@ -552,7 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     // ===========================
-    // 15. LIGHTBOX TOUCH SWIPE
+    // 14. LIGHTBOX TOUCH SWIPE
     // ===========================
     if (lightbox) {
         let touchStartX = 0;
@@ -577,7 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===========================
-    // 16. IMAGE ERROR HANDLING
+    // 15. IMAGE ERROR HANDLING
     // ===========================
     document.querySelectorAll('img').forEach(img => {
         img.addEventListener('error', function () {
