@@ -9,19 +9,12 @@
     <meta name="description"
         content="Přehled akcí spolku KOZEL – nadcházející i proběhlé akce pro děti a rodiny v Zelenči.">
     <meta name="author" content="Spolek KOZEL">
-    <meta property="og:title" content="Akce – Spolek KOZEL">
-    <meta property="og:description"
-        content="Přehled akcí spolku KOZEL – nadcházející i proběhlé akce pro děti a rodiny v Zelenči.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://godzila-ssps.github.io/kozel/Logo_Kozel.png">
     <meta name="theme-color" content="#2563eb">
-    <meta name="robots" content="index, follow">
     <title>Akce – Spolek KOZEL</title>
-    <link rel="icon" type="image/png" href="Icon_Kozel.png">
+    <link rel="icon" type="image/png" href="img/Icon_Kozel.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -30,15 +23,51 @@
 </head>
 
 <body>
-    <script>const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t);</script>
 
-    <!-- Header + nav loaded from components.js -->
-    <div id="site-header"></div>
+    <!-- ========== HEADER ========== -->
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="logo-link">
+                <img src="img/Logo_Kozel.png" alt="Logo Spolek KOZEL" class="logo-icon">
+                <div class="logo-text">
+                    <span class="logo-name">KOZEL</span>
+                    <span class="logo-subtitle"><strong>K</strong>ulturní <strong>O</strong>bčerstvení
+                        <strong>ZEL</strong>enče</span>
+                </div>
+            </a>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html"><i class="fa-solid fa-house"></i> Úvod</a></li>
+                    <li><a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a></li>
+                    <li><a href="akce.html" class="active"><i class="fa-solid fa-calendar-days"></i> Akce</a></li>
+                    <li><a href="info.html"><i class="fa-solid fa-circle-info"></i> O nás</a></li>
+                </ul>
+            </nav>
+
+            <button class="hamburger" id="hamburgerBtn" aria-label="Otevřít menu" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+    <nav class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="index.html"><i class="fa-solid fa-house"></i> Úvod</a></li>
+            <li><a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a></li>
+            <li><a href="akce.html"><i class="fa-solid fa-calendar-days"></i> Akce</a></li>
+            <li><a href="info.html"><i class="fa-solid fa-circle-info"></i> O nás</a></li>
+        </ul>
+        <a href="info.html#podpora" class="btn btn-primary"><i class="fa-solid fa-heart"></i> Podpořte nás</a>
+    </nav>
+
+    <div class="content-push"></div>
 
     <!-- ========== PAGE HEADER ========== -->
     <div class="page-header">
         <div class="container">
-            <h1><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Akce a program</h1>
+            <h1><i class="fa-solid fa-calendar-days"></i> Akce a program</h1>
             <p>Nadcházející i proběhlé akce spolku KOZEL</p>
             <div class="breadcrumb">
                 <a href="index.html">Úvod</a>
@@ -48,61 +77,145 @@
         </div>
     </div>
 
-    <!-- ========== UPCOMING EVENTS ========== -->
+    <!-- ========== NADCHAZEJICI AKCE ========== -->
+    <!-- to same, nejspis budoucnu JS -->
     <section class="section">
         <div class="container">
-            <div class="section-header reveal">
+            <div class="section-header">
                 <h2>Nadcházející akce</h2>
                 <p>Akce, na které se můžete těšit</p>
                 <span class="underline"></span>
             </div>
 
-            <div class="timeline" id="upcomingTimeline">
-                <!-- Rendered from site-data.js by script.js -->
+            <div class="timeline" id="nadchazejici-akce">
+                <!-- Zde bude JS vykreslovat nadcházející akce ze site-data.js -->
             </div>
         </div>
     </section>
 
-    <!-- ========== PAST EVENTS ========== -->
+    <!-- ========== PROBEHLE AKCE ========== -->
     <section class="section section-alt">
         <div class="container">
-            <div class="section-header reveal">
+            <div class="section-header">
                 <h2>Proběhlé akce</h2>
                 <p>Co jsme už stihli zorganizovat</p>
                 <span class="underline"></span>
             </div>
 
-            <div class="timeline" id="pastTimeline">
-                <!-- Rendered from site-data.js by script.js -->
+            <div class="timeline" id="probehle-akce">
+                <!-- Zde bude JS vykreslovat proběhlé akce ze site-data.js -->
             </div>
         </div>
     </section>
 
-    <!-- ========== CTA SECTION ========== -->
+    <!-- ========== DOBROVLONIK SECTION ========== -->
     <section class="section cta-section">
-        <div class="container reveal">
+        <div class="container">
             <h2>Chcete s námi pořádat akce?</h2>
             <p>
                 Hledáme dobrovolníky a spolupracovníky. Přidejte se k nám!
             </p>
             <div class="cta-buttons">
                 <a href="info.html#podpora" class="btn btn-primary">
-                    <i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>
+                    <i class="fa-solid fa-hand-holding-heart"></i>
                     Jak nás podpořit
                 </a>
                 <a href="info.html#kontakt" class="btn btn-outline">
-                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                    <i class="fa-solid fa-envelope"></i>
                     Kontaktujte nás
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Footer + back-to-top loaded from components.js -->
-    <div id="site-footer"></div>
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <a href="index.html" class="logo-link">
+                        <img src="img/Logo_Kozel.png" alt="Logo Spolek KOZEL" class="logo-icon">
+                        <div class="logo-text">
+                            <span class="logo-name">KOZEL</span>
+                            <span class="logo-subtitle"><strong>K</strong>ulturní <strong>O</strong>bčerstvení
+                                <strong>ZEL</strong>enče</span>
+                        </div>
+                    </a>
+                    <p>
+                        Spolek pro Kulturní Občerstvení ZELenče. Pořádáme akce nejen pro
+                        děti a&nbsp;rodiny — pohádkové stezky, masopusty, tvořivé
+                        dílny, ale i koncerty, letní kina a&nbsp;další.
+                    </p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank"
+                            rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank"
+                            rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="mailto:pohadkoveputovanizelenci@gmail.com" aria-label="E-mail"><i
+                                class="fa-solid fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Navigace</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Úvod</a></li>
+                        <li><a href="galerie.html"><i class="fa-solid fa-chevron-right"></i> Galerie</a></li>
+                        <li><a href="akce.html"><i class="fa-solid fa-chevron-right"></i> Akce</a></li>
+                        <li><a href="info.html"><i class="fa-solid fa-chevron-right"></i> O nás</a></li>
+                        <li><a href="info.html#podpora"><i class="fa-solid fa-chevron-right"></i> Podpořte nás</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Kontakt</h4>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>Ing. Michal Gazdo: <a href="tel:+420604176735">604&nbsp;176&nbsp;735</a><br>Jana
+                            Doležalová Mendlová: <a href="tel:+420607932148">607&nbsp;932&nbsp;148</a></span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span><a
+                                href="mailto:pohadkoveputovanizelenci@gmail.com">pohadkoveputovanizelenci<wbr>@gmail.com</a></span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Faltusova 184/9<br>Zeleneč 250 91</span>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Transparentní účet</h4>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <span>
+                            <strong>2801325330 / 2010</strong><br>
+                            <small>Fio banka</small><br>
+                            <small>IČO: 06529631</small>
+                        </span>
+                    </div>
+                    <a href="info.html#podpora" class="btn btn-primary footer-support-btn">
+                        <i class="fa-solid fa-heart"></i> Podpořte nás
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; 2026 Spolek KOZEL. Všechna práva vyhrazena.</span>
+                <span>
+                    Vytvořeno s <i class="fa-solid fa-heart footer-heart"></i>
+                    pro komunitu v Zelenči
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Zpět nahoru">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 
     <script src="site-data.js"></script>
-    <script src="components.js"></script>
     <script src="script.js"></script>
 </body>
 

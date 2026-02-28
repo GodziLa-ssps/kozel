@@ -1,646 +1,453 @@
-/* ============================================
-   SPOLEK KOZEL — Shared JavaScript
-   Spolek pro Kulturní Občerstvení ZELenče
-   ============================================ */
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    // ===========================
-    // 0. DARK MODE
-    // ===========================
-    const themeToggle = document.getElementById('themeToggle');
-
-    // Apply saved theme immediately (also handled by inline script, but just in case)
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            const current = document.documentElement.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-        });
-    }
+document.addEventListener('DOMContentLoaded', function () {
 
     // ===========================
     // 1. HAMBURGER MENU
     // ===========================
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileNav = document.getElementById('mobileNav');
-    const mobileOverlay = document.getElementById('mobileOverlay');
+    // chatko + ytb tutorial na jednoduchy javascrip hamburger
+    var hamburgerBtn = document.getElementById('hamburgerBtn');
+    var mobileNav = document.getElementById('mobileNav');
+    var mobileOverlay = document.getElementById('mobileOverlay');
 
     if (hamburgerBtn && mobileNav && mobileOverlay) {
-        const toggleMenu = () => {
-            const isOpen = mobileNav.classList.contains('active');
+        hamburgerBtn.addEventListener('click', function () {
+            var isOpen = mobileNav.classList.contains('active');
 
             mobileNav.classList.toggle('active');
             mobileOverlay.classList.toggle('active');
             hamburgerBtn.setAttribute('aria-expanded', !isOpen);
 
-            // Swap icon
-            const icon = hamburgerBtn.querySelector('i');
+            // Zmena ikony
+            var icon = hamburgerBtn.querySelector('i');
             if (icon) {
                 icon.className = isOpen ? 'fa-solid fa-bars' : 'fa-solid fa-xmark';
             }
 
-            // Prevent body scroll when menu is open
+            // zabranit scrollovani kdyz je menu otevrene
             document.body.style.overflow = isOpen ? '' : 'hidden';
-        };
-
-        hamburgerBtn.addEventListener('click', toggleMenu);
-        mobileOverlay.addEventListener('click', toggleMenu);
-
-        // Close menu on link click
-        mobileNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (mobileNav.classList.contains('active')) {
-                    toggleMenu();
-                }
-            });
         });
 
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-                toggleMenu();
-            }
+        // zavrit menu pri kliknuti na overlay
+        mobileOverlay.addEventListener('click', function () {
+            mobileNav.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            hamburgerBtn.setAttribute('aria-expanded', 'false');
+            hamburgerBtn.querySelector('i').className = 'fa-solid fa-bars';
+            document.body.style.overflow = '';
         });
     }
 
     // ===========================
-    // 2. HEADER SCROLL EFFECT
+    // 2. HEADER SCROLL EFEKT
     // ===========================
-    const siteHeader = document.getElementById('siteHeader');
+    // header dostane tridu "scrolled" kdyz uzivatel scrolluje dolu
+    var siteHeader = document.getElementById('siteHeader');
 
     if (siteHeader) {
-        const handleHeaderScroll = () => {
+        window.addEventListener('scroll', function () {
             if (window.scrollY > 10) {
                 siteHeader.classList.add('scrolled');
             } else {
                 siteHeader.classList.remove('scrolled');
             }
-        };
-
-        window.addEventListener('scroll', handleHeaderScroll, { passive: true });
-        handleHeaderScroll(); // Run on load
-    }
-
-    // ===========================
-    // 3. SCROLL REVEAL ANIMATIONS
-    // ===========================
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    // Observe all initial reveal elements
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
-        revealObserver.observe(el);
-    });
-
-    /**
-     * Observe dynamically added .reveal elements.
-     * Also handles instant-reveal for the news section.
-     */
-    function observeNewReveals(container, instant) {
-        if (!container) return;
-        container.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
-            if (instant) {
-                el.classList.add('visible');
-            } else {
-                revealObserver.observe(el);
-            }
         });
     }
 
     // ===========================
-    // 4. BACK TO TOP BUTTON
+    // 2.1 BACK TO TOP BUTTON
     // ===========================
-    const backToTop = document.getElementById('backToTop');
+    var backToTop = document.getElementById('backToTop');
 
     if (backToTop) {
-        const handleBackToTopVisibility = () => {
+        window.addEventListener('scroll', function () {
             if (window.scrollY > 400) {
                 backToTop.classList.add('visible');
             } else {
                 backToTop.classList.remove('visible');
             }
-        };
+        });
 
-        window.addEventListener('scroll', handleBackToTopVisibility, { passive: true });
-        handleBackToTopVisibility();
-
-        backToTop.addEventListener('click', () => {
+        backToTop.addEventListener('click', function () {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
     // ===========================
-    // 5. COUNTER ANIMATION (about stats)
+    // 3.5. VYKRESLENI NOVINEK A AKCI
     // ===========================
+    var newsContainer = document.getElementById('news-container');
+    if (newsContainer && typeof novinky !== 'undefined') {
+        newsContainer.innerHTML = '';
+        novinky.forEach(function (n) {
+            var article = document.createElement('article');
+            article.className = 'news-card';
+            article.innerHTML = `
+                <div class="news-card-image">
+                    <img src="${n.obrazek}" alt="${n.titulek}" loading="lazy">
+                    <span class="news-card-tag">${n.tag}</span>
+                </div>
+                <div class="news-card-body">
+                    <div class="news-card-date">
+                        <i class="fa-regular fa-calendar"></i>
+                        ${n.datum}
+                    </div>
+                    <h3>${n.titulek}</h3>
+                    <p>${n.text}</p>
+                </div>
+            `;
+            newsContainer.appendChild(article);
+        });
+    }
 
-    // Dynamicky vypočítat roky činnosti z roku založení
-    document.querySelectorAll('.stat-number[data-founding-year]').forEach(el => {
-        const founded = parseInt(el.getAttribute('data-founding-year'), 10);
-        el.setAttribute('data-target', new Date().getFullYear() - founded);
-    });
+    var nadchazejiciContainer = document.getElementById('nadchazejici-akce');
+    if (nadchazejiciContainer && typeof nadchazejiciAkce !== 'undefined') {
+        nadchazejiciContainer.innerHTML = '';
+        nadchazejiciAkce.forEach(function (a) {
+            var item = document.createElement('div');
+            item.className = 'timeline-item';
+            item.innerHTML = `
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="date-tag">
+                        <i class="fa-regular fa-calendar"></i>
+                        ${a.datum}
+                    </span>
+                    <h3>${a.nazev}</h3>
+                    <p>${a.popis}</p>
+                    <div class="event-details">
+                        <span><i class="fa-solid fa-location-dot"></i> ${a.misto}</span>
+                        ${a.cas ? '<span><i class="fa-regular fa-clock"></i> ' + a.cas + '</span>' : ''}
+                        <span><i class="fa-solid fa-tag"></i> ${a.tag}</span>
+                    </div>
+                </div>
+            `;
+            nadchazejiciContainer.appendChild(item);
+        });
+    }
 
-    const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+    var probehleContainer = document.getElementById('probehle-akce');
+    if (probehleContainer && typeof probehleAkce !== 'undefined') {
+        probehleContainer.innerHTML = '';
+        probehleAkce.forEach(function (a) {
+            var item = document.createElement('div');
+            item.className = 'timeline-item';
 
-    if (statNumbers.length > 0) {
-        const animateCounter = (el) => {
-            const target = parseInt(el.getAttribute('data-target'), 10);
-            const duration = 2000; // ms
-            const startTime = performance.now();
+            var btnFotografie = a.galerie
+                ? '<span><i class="fa-solid fa-camera"></i> <a href="' + a.galerie + '">Fotografie</a></span>'
+                : '';
 
-            const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
-
-            const update = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easedProgress = easeOutQuart(progress);
-
-                el.textContent = Math.round(target * easedProgress);
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                } else {
-                    // Add suffix if data-suffix is set, or "+" for large numbers
-                    const suffix = el.getAttribute('data-suffix') || '';
-                    if (suffix) {
-                        el.textContent = target + suffix;
-                    } else if (target >= 100) {
-                        el.textContent = target + '+';
-                    }
-                }
-            };
-
-            requestAnimationFrame(update);
-        };
-
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounter(entry.target);
-                    counterObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        statNumbers.forEach(el => counterObserver.observe(el));
+            item.innerHTML = `
+                <div class="timeline-dot past"></div>
+                <div class="timeline-content">
+                    <img src="${a.obrazek}" alt="${a.nazev}" class="event-image" loading="lazy">
+                    <span class="date-tag past">
+                        <i class="fa-regular fa-calendar"></i>
+                        ${a.datum}
+                    </span>
+                    <h3>${a.nazev}</h3>
+                    <p>${a.popis}</p>
+                    <div class="event-details">
+                        <span><i class="fa-solid fa-location-dot"></i> ${a.misto}</span>
+                        ${btnFotografie}
+                    </div>
+                </div>
+            `;
+            probehleContainer.appendChild(item);
+        });
     }
 
     // ===========================
-    // 6. GALLERY — render from GALLERY_DATA
+    // 4. GALERIE — generovani z JS a LIGHTBOX (Fáze 5)
     // ===========================
-    const galleryContainer = document.getElementById('galleryContainer');
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    var galerieContainer = document.getElementById('galerieContainer');
+    var pocetNaStart = 12; // kolik fotek zobrazit na zacatku
 
-    // All rendered gallery-item elements (populated after render)
-    let allGalleryItems = [];
-    const INITIAL_SHOW = 12; // photos per year-section before "show more"
+    // Promenne pro ukladani kontextu lightboxu
+    var curGalleryImages = [];
+    var curImageIndex = 0;
 
-    /**
-     * Get thumbnail path for a photo.
-     * Thumbnails are in thumbs/ as .webp, originals in fotky_weby/.
-     * Falls back to original if thumbs folder doesn't exist.
-     */
-    function getThumbSrc(folder, photo) {
-        // folder = 'fotky_weby/masopust24', photo = 'photo.jpg'
-        // thumb  = 'thumbs/masopust24/photo.webp'
-        const rel = folder.replace(/^fotky_weby\//, '');
-        const webpName = photo.replace(/\.[^.]+$/, '.webp');
-        return `thumbs/${rel}/${webpName}`;
-    }
+    // funkce co vykresli galerii
+    function vykresliGalerii(filtr) {
+        if (!galerieContainer || typeof galerieFotky === 'undefined') return;
 
-    /**
-     * Build the gallery HTML: year-sections with grids of photos.
-     * @param {string} filter - 'all' or a category key like 'masopust'
-     */
-    function renderGallery(filter) {
-        if (!galleryContainer || typeof GALLERY_DATA === 'undefined') return;
+        galerieContainer.innerHTML = '';
 
-        galleryContainer.innerHTML = '';
-        allGalleryItems = [];
+        // seradit od nejnovejsiho
+        var serazene = galerieFotky.slice().sort(function (a, b) {
+            return b.rok - a.rok;
+        });
 
-        // Sort data: newest year first
-        const sorted = [...GALLERY_DATA].sort((a, b) => b.year - a.year);
+        // vyfiltrovat podle kategorie
+        var skupiny = serazene.filter(function (g) {
+            return filtr === 'all' || g.kategorie === filtr;
+        });
 
-        const groups = sorted.filter(g => filter === 'all' || g.category === filter);
-
-        if (groups.length === 0) {
-            galleryContainer.innerHTML = '<p style="text-align:center;color:var(--text-muted);">Žádné fotografie.</p>';
+        if (skupiny.length === 0) {
+            galerieContainer.innerHTML = '<p style="text-align:center;color:var(--text-muted);">Žádné fotografie.</p>';
             return;
         }
 
-        groups.forEach(group => {
-            // Year-section wrapper
-            const section = document.createElement('div');
-            section.className = 'gallery-year-section';
-            section.dataset.category = group.category;
+        // pro kazdou akci vytvorit sekci
+        skupiny.forEach(function (skupina) {
+            var sekce = document.createElement('div');
+            sekce.className = 'gallery-year-section';
 
-            // Heading
-            const heading = document.createElement('h2');
-            heading.className = 'gallery-year-heading';
-            heading.innerHTML = `
-                <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-                ${group.title}
-                <span class="photo-count">${group.photos.length} fotografií</span>
-            `;
-            section.appendChild(heading);
+            // nadpis (napr. "Masopust 2025 (69 fotografií)")
+            var nadpis = document.createElement('h2');
+            nadpis.className = 'gallery-year-heading';
+            nadpis.innerHTML = '<i class="fa-solid fa-calendar"></i> ' +
+                skupina.nazev +
+                ' <span class="photo-count">' + skupina.fotky.length + ' fotografií</span>';
+            sekce.appendChild(nadpis);
 
-            // Grid
-            const grid = document.createElement('div');
+            // grid s fotkami
+            var grid = document.createElement('div');
             grid.className = 'gallery-grid';
-            section.appendChild(grid);
+            sekce.appendChild(grid);
 
-            // Render photos (first INITIAL_SHOW visible)
-            group.photos.forEach((photo, i) => {
-                const fullSrc = `${group.folder}/${photo}`;
-                const thumbSrc = getThumbSrc(group.folder, photo);
-                const item = document.createElement('div');
+            // pridat fotky
+            skupina.fotky.forEach(function (fotka, i) {
+                var item = document.createElement('div');
                 item.className = 'gallery-item';
-                item.dataset.category = group.category;
-                item.dataset.src = fullSrc;
-                item.dataset.caption = `${group.title} — ${i + 1}/${group.photos.length}`;
 
-                if (i >= INITIAL_SHOW) {
+                // schovat fotky po pocetNaStart
+                if (i >= pocetNaStart) {
                     item.classList.add('gallery-hidden');
                 }
 
-                item.innerHTML = `
-                    <img src="${thumbSrc}" alt="${group.title}" loading="lazy"
-                         onerror="this.onerror=null;this.src='${fullSrc}'">
-                    <div class="gallery-item-overlay">
-                        <span>${group.title}</span>
-                    </div>
-                `;
+                var img = document.createElement('img');
+                img.src = skupina.slozka + '/' + fotka;
+                img.alt = skupina.nazev;
+                img.loading = 'lazy';
+                item.appendChild(img);
                 grid.appendChild(item);
-                allGalleryItems.push(item);
             });
 
-            // "Show more" button if there are hidden photos
-            if (group.photos.length > INITIAL_SHOW) {
-                const showMoreWrap = document.createElement('div');
-                showMoreWrap.className = 'gallery-show-more';
+            // tlacitko "zobrazit dalsi" pokud je vic fotek
+            if (skupina.fotky.length > pocetNaStart) {
+                var zbyva = skupina.fotky.length - pocetNaStart;
+                var wrapper = document.createElement('div');
+                wrapper.className = 'gallery-show-more';
 
-                const remaining = group.photos.length - INITIAL_SHOW;
-                const btn = document.createElement('button');
-                btn.className = 'btn btn-outline';
-                btn.innerHTML = `<i class="fa-solid fa-images" aria-hidden="true"></i> Zobrazit dalších ${remaining} fotek`;
+                var tlacitko = document.createElement('button');
+                tlacitko.className = 'btn btn-outline';
+                tlacitko.innerHTML = '<i class="fa-solid fa-images"></i> Zobrazit dalších ' + zbyva + ' fotek';
 
-                btn.addEventListener('click', () => {
-                    grid.querySelectorAll('.gallery-hidden').forEach(el => {
+                tlacitko.addEventListener('click', function () {
+                    var skryte = grid.querySelectorAll('.gallery-hidden');
+                    skryte.forEach(function (el) {
                         el.classList.remove('gallery-hidden');
                     });
-                    showMoreWrap.remove();
+                    wrapper.remove();
                 });
 
-                showMoreWrap.appendChild(btn);
-                section.appendChild(showMoreWrap);
+                wrapper.appendChild(tlacitko);
+                sekce.appendChild(wrapper);
             }
 
-            galleryContainer.appendChild(section);
+            galerieContainer.appendChild(sekce);
         });
-
-        // Re-init lightbox with new items
-        initLightbox();
     }
 
-    // Filter buttons
+    // spustit galerii pri nacteni
+    if (galerieContainer) {
+        vykresliGalerii('all');
+    }
+
+    // filtry
     if (filterBtns.length > 0) {
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
+        filterBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                filterBtns.forEach(function (b) { b.classList.remove('active'); });
                 btn.classList.add('active');
-                renderGallery(btn.getAttribute('data-filter'));
+                var filtr = btn.getAttribute('data-filter');
+                vykresliGalerii(filtr);
             });
         });
     }
 
-    // Initial render
-    renderGallery('all');
+    // fullscreen overlay lightbox (Fáze 5)
+    var overlay = document.getElementById('fotkaOverlay');
+    var velkaFotka = document.getElementById('fotkaVelka');
 
-    // ===========================
-    // 7. LIGHTBOX
-    // ===========================
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-    const lightboxClose = document.getElementById('lightboxClose');
-    const lightboxPrev = document.getElementById('lightboxPrev');
-    const lightboxNext = document.getElementById('lightboxNext');
+    // Pokud overlay neexistuje primo v HTML (napr. v galerie.html), vytvorime ho dynamicky
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'fotkaOverlay';
 
-    let currentIndex = 0;
-    let visibleItems = [];
+        velkaFotka = document.createElement('img');
+        velkaFotka.id = 'fotkaVelka';
+        velkaFotka.alt = 'Zvětšená fotografie';
 
-    function getVisibleItems() {
-        return allGalleryItems.filter(item => {
-            // Must be in a visible section and not hidden by "show more"
-            return !item.classList.contains('gallery-hidden') &&
-                item.offsetParent !== null;
-        });
+        overlay.appendChild(velkaFotka);
+        document.body.appendChild(overlay);
     }
 
-    function openLightbox(index) {
-        if (!lightbox) return;
-        visibleItems = getVisibleItems();
-        currentIndex = index;
-
-        const item = visibleItems[currentIndex];
-        if (!item) return;
-
-        lightboxImg.src = item.dataset.src;
-        lightboxImg.alt = item.dataset.caption;
-        lightboxCaption.textContent = item.dataset.caption;
-
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeLightbox() {
-        if (!lightbox) return;
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-        lightboxImg.src = '';
-    }
-
-    function showPrev() {
-        currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
-        openLightbox(currentIndex);
-    }
-
-    function showNext() {
-        currentIndex = (currentIndex + 1) % visibleItems.length;
-        openLightbox(currentIndex);
-    }
-
-    function initLightbox() {
-        allGalleryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const visible = getVisibleItems();
-                const idx = visible.indexOf(item);
-                if (idx !== -1) openLightbox(idx);
-            });
-        });
-    }
-
-    if (lightbox) {
-        if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-        if (lightboxPrev) lightboxPrev.addEventListener('click', showPrev);
-        if (lightboxNext) lightboxNext.addEventListener('click', showNext);
-
-        // Close on overlay click
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (!lightbox.classList.contains('active')) return;
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowLeft') showPrev();
-            if (e.key === 'ArrowRight') showNext();
-        });
-    }
-
-    // ===========================
-    // 8. NEWS CARDS (from site-data.js)
-    // ===========================
-    const newsGrid = document.getElementById('newsGrid');
-
-    if (newsGrid && typeof NEWS_DATA !== 'undefined') {
-        NEWS_DATA.forEach((item, i) => {
-            const card = document.createElement('article');
-            card.className = 'news-card reveal';
-            card.style.setProperty('--i', i);
-
-            const linkHref = item.link || '#';
-            card.innerHTML = `
-                <a href="${linkHref}" class="news-card-link">
-                    <div class="news-card-image">
-                        <img src="${item.image}" alt="${item.title}" loading="lazy">
-                        <span class="news-card-tag">${item.tag}</span>
-                    </div>
-                    <div class="news-card-body">
-                        <div class="news-card-date">
-                            <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                            ${item.date}
-                        </div>
-                        <h3>${item.title}</h3>
-                        <p>${item.text}</p>
-                    </div>
-                </a>
-            `;
-            newsGrid.appendChild(card);
-        });
-
-        // News cards are above the fold — reveal instantly
-        observeNewReveals(newsGrid, true);
-    }
-
-    // ===========================
-    // 9. EVENTS TIMELINE (from site-data.js)
-    // ===========================
-    const upcomingTimeline = document.getElementById('upcomingTimeline');
-    const pastTimeline = document.getElementById('pastTimeline');
-
-    if (typeof EVENTS_DATA !== 'undefined') {
-        const upcoming = EVENTS_DATA.filter(e => e.upcoming);
-        const past = EVENTS_DATA.filter(e => !e.upcoming);
-
-        function renderTimeline(container, events, isPast) {
-            if (!container) return;
-            events.forEach((evt, i) => {
-                const item = document.createElement('div');
-                item.className = 'timeline-item reveal';
-                item.style.setProperty('--i', i);
-
-                // Build details row
-                let details = `<span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> ${evt.location}</span>`;
-                if (evt.time) {
-                    details += `<span><i class="fa-regular fa-clock" aria-hidden="true"></i> ${evt.time}</span>`;
-                }
-                if (evt.galleryLink) {
-                    details += `<span><i class="fa-solid fa-camera" aria-hidden="true"></i> <a href="galerie.html">Fotografie</a></span>`;
-                }
-                if (evt.tag) {
-                    details += `<span><i class="fa-solid fa-tag" aria-hidden="true"></i> ${evt.tag}</span>`;
-                }
-
-                item.innerHTML = `
-                    <div class="timeline-dot${isPast ? ' past' : ''}"></div>
-                    <div class="timeline-content">
-                        <span class="date-tag${isPast ? ' past' : ''}">
-                            <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                            ${evt.date}
-                        </span>
-                        <h3>${evt.title}</h3>
-                        <p>${evt.text}</p>
-                        <div class="event-details">${details}</div>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
+    if (overlay && velkaFotka) {
+        // Vytvoreni ovladacich prvku dynamicky pokud neexistuji v HTML
+        if (!document.getElementById('fotkaZavrit')) {
+            overlay.insertAdjacentHTML('beforeend', `
+                <button id="fotkaZavrit" class="lightbox-btn" aria-label="Zavřít"><i class="fa-solid fa-xmark"></i></button>
+                <button id="fotkaPredchozi" class="lightbox-btn" aria-label="Předchozí"><i class="fa-solid fa-chevron-left"></i></button>
+                <button id="fotkaDalsi" class="lightbox-btn" aria-label="Další"><i class="fa-solid fa-chevron-right"></i></button>
+            `);
         }
 
-        renderTimeline(upcomingTimeline, upcoming, false);
-        renderTimeline(pastTimeline, past, true);
+        var zavritBtn = document.getElementById('fotkaZavrit');
+        var prevBtn = document.getElementById('fotkaPredchozi');
+        var nextBtn = document.getElementById('fotkaDalsi');
 
-        // Observe dynamic timeline items for scroll reveal
-        observeNewReveals(upcomingTimeline, false);
-        observeNewReveals(pastTimeline, false);
+        // Funkce na zmenu fotky dle indexu
+        function menFotku(noveIndex) {
+            if (curGalleryImages.length === 0) return;
+            // Osetreni koncu pole (nekonecna smycka)
+            if (noveIndex < 0) {
+                curImageIndex = curGalleryImages.length - 1;
+            } else if (noveIndex >= curGalleryImages.length) {
+                curImageIndex = 0;
+            } else {
+                curImageIndex = noveIndex;
+            }
+            velkaFotka.src = curGalleryImages[curImageIndex];
+        }
+
+        // Tlačítka Další a Předchozí
+        prevBtn.addEventListener('click', function (e) { e.stopPropagation(); menFotku(curImageIndex - 1); });
+        nextBtn.addEventListener('click', function (e) { e.stopPropagation(); menFotku(curImageIndex + 1); });
+        zavritBtn.addEventListener('click', function (e) { e.stopPropagation(); overlay.classList.remove('aktivni'); });
+
+        // Otevrit fotku (nyni sbira VSECHNY aktualni fotky do pole na posunovani)
+        document.body.addEventListener('click', function (e) {
+            var img = e.target.closest('.gallery-item img');
+            if (!img) return;
+
+            // Najde vsechny takove fotky v cele galerii, at uz jsou v ruznych sekcich
+            var allImages = Array.from(document.querySelectorAll('.gallery-item img'));
+
+            // Extrakce src z elementů do pole, abychom jimi mohli projizdet
+            curGalleryImages = allImages.map(function (im) { return im.src; });
+
+            // Zjisteni na kolikatou jsme klikli
+            curImageIndex = curGalleryImages.indexOf(img.src);
+
+            velkaFotka.src = img.src;
+            overlay.classList.add('aktivni');
+        });
+
+        // zavrit fotku — kliknout na pozadi (mimo fotku a tlacitka)
+        overlay.addEventListener('click', function (e) {
+            if (e.target === velkaFotka || e.target.closest('.lightbox-btn')) return;
+            overlay.classList.remove('aktivni');
+        });
     }
 
+    // zavrit / prepinat pomoci klavesnice
+    document.addEventListener('keydown', function (e) {
+        if (!overlay || !overlay.classList.contains('aktivni')) return;
+
+        if (e.key === 'Escape') {
+            overlay.classList.remove('aktivni');
+        } else if (e.key === 'ArrowLeft') {
+            menFotku(curImageIndex - 1);
+        } else if (e.key === 'ArrowRight') {
+            menFotku(curImageIndex + 1);
+        }
+    });
+
     // ===========================
-    // 10. SMOOTH SCROLL FOR ANCHOR LINKS
+    // 5. SMOOTH SCROLL PRO LINKY
     // ===========================
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', (e) => {
-            const targetId = anchor.getAttribute('href');
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
+            var targetId = anchor.getAttribute('href');
             if (targetId === '#') return;
 
-            const targetEl = document.querySelector(targetId);
+            var targetEl = document.querySelector(targetId);
             if (targetEl) {
                 e.preventDefault();
-                const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
-                const top = targetEl.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
-
-                window.scrollTo({ top, behavior: 'smooth' });
+                var headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
+                var top = targetEl.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+                window.scrollTo({ top: top, behavior: 'smooth' });
             }
         });
     });
 
     // ===========================
-    // 11. ANNOUNCEMENT BAR (from site-data.js)
+    // 6. SCROLL PROGRESS BAR
     // ===========================
-    const announcementTrack = document.getElementById('announcementTrack');
+    var progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.prepend(progressBar);
 
-    if (announcementTrack && typeof ANNOUNCEMENTS !== 'undefined' && ANNOUNCEMENTS.length > 0) {
-        function buildAnnouncementInner(ariaHidden) {
-            const div = document.createElement('div');
-            div.className = 'announcement-inner';
-            if (ariaHidden) div.setAttribute('aria-hidden', 'true');
-
-            ANNOUNCEMENTS.forEach(item => {
-                const a = document.createElement('a');
-                a.href = item.link;
-                a.className = 'announcement-item';
-                let html = '';
-                if (item.badge) html += '<span class="badge">Nové</span>';
-                html += `<i class="${item.icon}" aria-hidden="true"></i> ${item.text}`;
-                a.innerHTML = html;
-                div.appendChild(a);
-            });
-            return div;
-        }
-
-        // Original + duplicate for seamless CSS marquee loop
-        announcementTrack.appendChild(buildAnnouncementInner(false));
-        announcementTrack.appendChild(buildAnnouncementInner(true));
-    }
+    window.addEventListener('scroll', function () {
+        var scrollTop = window.scrollY;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = progress + '%';
+    });
 
     // ===========================
-    // 12. MAP CONSENT (GDPR)
+    // 7. MAPA (info.html)
     // ===========================
-    const loadMapBtn = document.getElementById('loadMapBtn');
-    const mapContainer = document.getElementById('mapContainer');
-    const mapConsent = document.getElementById('mapConsent');
+    var loadMapBtn = document.getElementById('loadMapBtn');
+    var mapContainer = document.getElementById('mapContainer');
 
     if (loadMapBtn && mapContainer) {
-        // Check if user already consented
-        if (localStorage.getItem('mapConsent') === 'true') {
-            loadMap();
-        }
+        loadMapBtn.addEventListener('click', function () {
+            // schovat tlacitko a nacist mapu
+            var consent = document.getElementById('mapConsent');
+            if (consent) consent.remove();
 
-        loadMapBtn.addEventListener('click', () => {
-            localStorage.setItem('mapConsent', 'true');
-            loadMap();
-        });
-
-        function loadMap() {
-            if (mapConsent) mapConsent.remove();
-            const iframe = document.createElement('iframe');
+            var iframe = document.createElement('iframe');
             iframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2557.5!2d14.6427!3d50.0867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470bee6b6f9a9e2d%3A0x400af0f66164bf0!2sFaltusova%20184%2F9%2C%20250%2091%20Zelene%C4%8D!5e0!3m2!1scs!2scz';
-            //mapa na zelenec obecne     iframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10236.04!2d14.6!3d50.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470bee6b6f9a9e2d%3A0x400af0f66164bf0!2sZelene%C4%8D!5e0!3m2!1scs!2scz!4v1700000000000!5m2!1scs!2scz';
             iframe.allowFullscreen = true;
             iframe.loading = 'lazy';
-            iframe.referrerPolicy = 'no-referrer-when-downgrade';
             iframe.title = 'Mapa — Faltusova 184/9, Zeleneč';
             iframe.style.width = '100%';
             iframe.style.height = '100%';
             iframe.style.border = '0';
             mapContainer.appendChild(iframe);
-        }
-    }
-
-    // ===========================
-    // 13. SCROLL PROGRESS BAR
-    // ===========================
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    progressBar.setAttribute('aria-hidden', 'true');
-    document.body.prepend(progressBar);
-
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        progressBar.style.width = progress + '%';
-    }, { passive: true });
-
-    // ===========================
-    // 14. LIGHTBOX TOUCH SWIPE
-    // ===========================
-    if (lightbox) {
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        lightbox.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        lightbox.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            const diff = touchStartX - touchEndX;
-
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) {
-                    showNext();
-                } else {
-                    showPrev();
-                }
-            }
-        }, { passive: true });
-    }
-
-    // ===========================
-    // 15. IMAGE ERROR HANDLING
-    // ===========================
-    document.querySelectorAll('img').forEach(img => {
-        img.addEventListener('error', function () {
-            if (this.dataset.errorHandled) return;
-            this.dataset.errorHandled = 'true';
-            this.style.display = 'none';
-
-            const fallback = document.createElement('div');
-            fallback.className = 'img-error-fallback';
-            fallback.style.width = '100%';
-            fallback.style.height = '100%';
-            fallback.style.minHeight = '120px';
-            fallback.innerHTML = '<i class="fa-solid fa-image" style="font-size:1.5rem;opacity:0.3;"></i>';
-            this.parentNode.insertBefore(fallback, this.nextSibling);
         });
-    });
+    }
+
+    // ===========================
+    // 8. STAT COUNTER ANIMACE
+    // ===========================
+    var statNumbers = document.querySelectorAll('.stat-number[data-target]');
+
+    if (statNumbers.length > 0) {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    var el = entry.target;
+                    var target = parseInt(el.getAttribute('data-target'));
+                    var suffix = el.getAttribute('data-suffix') || '';
+                    var duration = 2000; // 2 sekundy
+                    var start = 0;
+                    var startTime = null;
+
+                    function animate(timestamp) {
+                        if (!startTime) startTime = timestamp;
+                        var progress = Math.min((timestamp - startTime) / duration, 1);
+                        var current = Math.floor(progress * target);
+                        el.textContent = current + suffix;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            el.textContent = target + suffix;
+                        }
+                    }
+
+                    requestAnimationFrame(animate);
+                    observer.unobserve(el); // spustit jen jednou
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(function (el) {
+            observer.observe(el);
+        });
+    }
 
 });
