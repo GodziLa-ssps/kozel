@@ -387,30 +387,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ===========================
-    // 7. MAPA (info.html)
-    // ===========================
-    var loadMapBtn = document.getElementById('loadMapBtn');
-    var mapContainer = document.getElementById('mapContainer');
-
-    if (loadMapBtn && mapContainer) {
-        loadMapBtn.addEventListener('click', function () {
-            // schovat tlacitko a nacist mapu
-            var consent = document.getElementById('mapConsent');
-            if (consent) consent.remove();
-
-            var iframe = document.createElement('iframe');
-            iframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2557.5!2d14.6427!3d50.0867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470bee6b6f9a9e2d%3A0x400af0f66164bf0!2sFaltusova%20184%2F9%2C%20250%2091%20Zelene%C4%8D!5e0!3m2!1scs!2scz';
-            iframe.allowFullscreen = true;
-            iframe.loading = 'lazy';
-            iframe.title = 'Mapa — Faltusova 184/9, Zeleneč';
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.border = '0';
-            mapContainer.appendChild(iframe);
-        });
-    }
-
-    // ===========================
     // 8. STAT COUNTER ANIMACE
     // ===========================
     var statNumbers = document.querySelectorAll('.stat-number[data-target]');

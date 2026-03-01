@@ -30,6 +30,20 @@ var novinky = [
         titulek: "Víkendové tvořivé dílny",
         text: "Každý měsíc pořádáme kreativní dílny, kde si děti vyzkouší malování, keramiku, výrobu masek a další tvoření.",
         obrazek: "galerie/masopust24/708441294738444.jpg"
+    },
+    {
+        tag: "asdd",
+        datum: "asdasd",
+        titulek: "asdasdasd",
+        text: "asdasdasd",
+        obrazek: "galerie/pohadkac23/624801676435740.jpg"
+    },
+    {
+        tag: "ads",
+        datum: "sadasdad",
+        titulek: "asdasdada",
+        text: "dsadasd.",
+        obrazek: "galerie/masopust24/708441294738444.jpg"
     }
 ];
 

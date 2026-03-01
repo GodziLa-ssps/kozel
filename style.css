@@ -302,7 +302,7 @@ h6 {
     background-color: var(--bg-alt);
 }
 
-/* --- Mobile Nav Overlay --- */
+/* --- Mobile Nav --- */
 .mobile-nav-overlay {
     display: none;
     position: fixed;
@@ -386,7 +386,7 @@ h6 {
     height: var(--header-height);
 }
 
-/* --- Hero Section --- */
+/* --- Hero --- */
 .hero {
     position: relative;
     min-height: 520px;
@@ -527,17 +527,6 @@ h6 {
     gap: 24px;
 }
 
-.news-card-link {
-    display: flex;
-    flex-direction: column;
-    color: inherit;
-    text-decoration: none;
-    flex-grow: 1;
-}
-
-.news-card-link:hover {
-    color: inherit;
-}
 
 .news-card {
     background: var(--bg);
@@ -906,7 +895,6 @@ h6 {
     flex-wrap: wrap;
 }
 
-/* Info page content blocks */
 .info-text-content {
     display: flex;
     flex-direction: column;
@@ -940,17 +928,6 @@ h6 {
     color: var(--primary);
 }
 
-/* QR note (info.html) */
-.qr-note {
-    margin-top: 12px;
-    font-size: 0.85rem;
-}
-
-.qr-note i {
-    margin-right: 4px;
-}
-
-/* Sponsors CTA */
 .sponsors-cta {
     text-align: center;
     margin-top: 40px;
@@ -968,12 +945,10 @@ h6 {
     line-height: 1.7;
 }
 
-/* Social link spacing */
 .social-link-spaced {
     margin-right: 16px;
 }
 
-/* Gallery year section headings */
 .gallery-year-section {
     margin-bottom: 48px;
 }
@@ -1016,50 +991,6 @@ h6 {
     display: none;
 }
 
-/* fullscreen overlay pro fotky */
-.fotka-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.fotka-overlay.aktivni {
-    display: flex;
-}
-
-.fotka-overlay img {
-    max-width: 90%;
-    max-height: 90vh;
-    object-fit: contain;
-    border-radius: var(--radius);
-}
-
-.fotka-zavrit {
-    position: absolute;
-    top: 16px;
-    right: 24px;
-    font-size: 2.5rem;
-    color: white;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 2001;
-}
-
-.fotka-zavrit:hover {
-    color: var(--primary-light);
-}
-
-
-/* --- Page Header (for sub-pages) --- */
 .page-header {
     background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
     color: white;
@@ -1152,30 +1083,9 @@ h6 {
     transform: scale(1.1);
 }
 
-.gallery-item-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
-    display: flex;
-    align-items: flex-end;
-    padding: 16px;
-    opacity: 0;
-    transition: opacity var(--transition);
-}
-
-.gallery-item:hover .gallery-item-overlay {
-    opacity: 1;
-}
-
-.gallery-item-overlay span {
-    color: white;
-    font-size: 0.85rem;
-    font-weight: 500;
-}
 
 
 
-/* --- Events Timeline --- */
 .timeline {
     position: relative;
     max-width: 800px;
@@ -1278,7 +1188,6 @@ h6 {
     margin-bottom: 12px;
 }
 
-/* --- Info Page Sections --- */
 .info-section {
     padding: 60px 0;
 }
@@ -1461,9 +1370,8 @@ h6 {
     color: white;
 }
 
-/* ==============================
-   RESPONSIVE BREAKPOINTS
-   ============================== */
+/* 
+   BREAKPOINTY
 
 /* Tablet */
 @media (max-width: 1024px) {
@@ -1506,7 +1414,7 @@ h6 {
     }
 }
 
-/* Mobile Large */
+/* Mobil */
 @media (max-width: 768px) {
     :root {
         --header-height: 72px;
@@ -1617,7 +1525,7 @@ h6 {
     }
 }
 
-/* Mobile Small */
+/* Mobil maly */
 @media (max-width: 480px) {
     .container {
         padding: 0 16px;
@@ -1697,7 +1605,6 @@ h6 {
     }
 }
 
-/* --- Print Styles --- */
 @media print {
 
     .site-header,
@@ -1724,9 +1631,9 @@ h6 {
     }
 }
 
-/* ==============================
-   FOCUS STYLES (Accessibility)
-   ============================== */
+/* 
+   FOCUS STYLES
+*/
 *:focus-visible {
     outline: 3px solid var(--primary);
     outline-offset: 2px;
@@ -1739,37 +1646,13 @@ button:focus-visible,
     outline-offset: 2px;
 }
 
-/* ==============================
-   MAP CONSENT (GDPR)
-   ============================== */
-.map-consent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    min-height: 300px;
-    text-align: center;
-    padding: 32px;
-    color: var(--text-muted);
-    background: var(--bg-alt);
-}
+/* 
+   MAPA
+*/
 
-.map-consent i {
-    font-size: 2.5rem;
-    color: var(--primary-light);
-    margin-bottom: 16px;
-}
-
-.map-consent p {
-    margin-bottom: 16px;
-    font-size: 0.9rem;
-    max-width: 300px;
-}
-
-/* ==============================
-   PARTNER PLACEHOLDERS
-   ============================== */
+/* 
+   PARTNERS
+*/
 .partner-placeholder {
     display: inline-flex;
     align-items: center;
@@ -1793,9 +1676,9 @@ button:focus-visible,
 
 
 
-/* ==============================
-   SCROLL PROGRESS BAR
-   ============================== */
+/* 
+   SCROLL BAR
+*/
 .scroll-progress {
     position: fixed;
     top: 0;
@@ -1807,9 +1690,9 @@ button:focus-visible,
     transition: width 0.1s linear;
 }
 
-/* ==============================
-   LIGHTBOX OVLADANI A OVERLAY (Fáze 5)
-   ============================== */
+/* 
+   LIGHTBOX + CONTROLS 
+*/
 #fotkaOverlay {
     position: fixed;
     top: 0;
